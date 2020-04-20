@@ -91,7 +91,7 @@ class VHDLint:
                 print(str(i) + ", " + info + ": " + line.lstrip())
             i += 1
 
-    def check_linelength(self):
+    def check_line_length(self):
 
         info = "Line too long"
         i = 1
@@ -101,6 +101,35 @@ class VHDLint:
                 hint = " (" + str(line_length) + "/" + str(self.max_line_length) + ")"
                 print(str(i) + ", " + info + hint + ": " + line.lstrip())
             i += 1
+    
+    def check_signal_names(self):
+    
+        info = "Bad signal name"
+        i = 1
+        for line in self.lines:
+            name_bgn = line.lower().find("signal")
+            chk_comment = line.find("--")
+            if name_bgn != -1 and (name_bgn < chk_comment or chk_comment == -1):
+                l_ss = line[name_bgn+len("signal"):].strip()
+                signal_name = l_ss[:l_ss.find(" ")]
+                if len(signal_name) > 24:
+                    print(str(i) + ", " + info + ": " + signal_name)
+            i += 1
+    
+    def check_var_names(self):
+    
+        info = "Bad variable name"
+        i = 1
+        for line in self.lines:
+            name_bgn = line.lower().find("variable")
+            chk_comment = line.find("--")
+            if name_bgn != -1 and (name_bgn < chk_comment or chk_comment == -1):
+                l_ss = line[name_bgn+len("variable"):].strip()
+                var_name = l_ss[:l_ss.find(" ")]
+                if len(var_name) > 24:
+                    print(str(i) + ", " + info + ": " + var_name)
+            i += 1
+        
 
     def check_time_units(self):
 
@@ -217,9 +246,11 @@ if __name__ == "__main__":
 
         if cfg.CODE_CHECK:
 
+            LNTR.check_line_length()
+            LNTR.check_signal_names()
+            LNTR.check_var_names()
             LNTR.check_comments()
             LNTR.check_semicolons()
-            LNTR.check_linelength()
             LNTR.check_time_units()
             LNTR.trailing_spaces()
             #LNTR.find_tabs()

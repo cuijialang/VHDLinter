@@ -1,13 +1,18 @@
 # VHDLint Config
 
-DIRECTORY = "../"
+DIRECTORY = "../monitoring/"
 MAX_LINE_LENGTH = 80
 
-# FILE CHECK
-# prints to console
-check = True
+# Print to console
+CODE_CHECK = True
 
-# FILE FORMATTING
 # Caution: File modifications can't be undone!
+FORMATTING = True
+
+delete_wspaces = True
 tab2space = False
-rm_eol_spaces = False
+comment_space = False
+
+# PERSONAL SETTINGS
+colors= ["yellow", "cyan", "magenta", "blue", "green"]
+color_filename = colors[0]

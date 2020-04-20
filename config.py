@@ -12,9 +12,9 @@ BAK_FOLDER = "./.bak"
 
 # Caution: File modifications can't be undone!
 FORMATTING = True
-tab2space = True
-pretty_commenting = True
+TAB2SPACE = True
+PRETTY_COMMENTING = True
 
 # PERSONAL SETTINGS
-colors= ["yellow", "cyan", "magenta", "blue", "green"]
-color_filename = colors[0]
+COLORS = ["yellow", "cyan", "magenta", "blue", "green"]
+COLOR_FILENAME = COLORS[0]

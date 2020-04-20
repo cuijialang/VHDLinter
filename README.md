@@ -18,7 +18,7 @@ Some ideas to improve the functionality:
 - [ ] Add more linter functionality
 - [ ] VHDL_coding_style.pdf
 - [x] Remove eol_spaces
-- [*] Configuration settings
+- [ ] Configuration settings
 - [ ] Multiple directories
 - [x] Backup functionality
 - [ ] Ignore lines with ignore comment

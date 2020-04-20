@@ -188,7 +188,7 @@ class VHDLint:
         for line in self.lines:
             content += line.rstrip()+"\n"
 
-        f = open(self.dir + "test_editing.txt", "w") # my_file
+        f = open(self.dir + my_file, "w")
         f.write(content)
         f.close()
 
@@ -211,7 +211,7 @@ if __name__ == "__main__":
 
         if platform.platform().find("Linux") == -1:
             os.system('color')
-        print(colored("************ " + my_file, cfg.color_filename))
+        print(colored("************ " + my_file, cfg.COLOR_FILENAME))
 
         LNTR.get_lines(my_file)
 
@@ -227,10 +227,10 @@ if __name__ == "__main__":
 
         if cfg.FORMATTING:
 
-            if cfg.tab2space:
+            if cfg.TAB2SPACE:
                 LNTR.tab2space()
 
-            if cfg.pretty_commenting:
+            if cfg.PRETTY_COMMENTING:
                 LNTR.make_pretty_comment()
 
             # edit file and delete whitespaces

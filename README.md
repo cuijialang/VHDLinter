@@ -17,12 +17,13 @@ Some ideas to improve the functionality:
 - [ ] How does Pylint work?
 - [ ] Add more linter functionality
 - [ ] VHDL_coding_style.pdf
-- [ ] Remove eol_spaces
-- [ ] Configuration settings
+- [x] Remove eol_spaces
+- [*] Configuration settings
 - [ ] Multiple directories
 - [x] Backup functionality
 - [ ] Ignore lines with ignore comment
-- [ ] GUI for settings, write in file mode?
+- [ ] GUI for settings, write in file mode
+- [x] gitignore file
 
 ## Preview
 <img src="images/preview.png" width="500">

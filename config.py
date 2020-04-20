@@ -1,6 +1,8 @@
 # VHDLint Config
 
+#DIRECTORY = "../"
 DIRECTORY = "../monitoring/"
+
 MAX_LINE_LENGTH = 80
 SPACES_PER_TAB = 4
 

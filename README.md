@@ -20,7 +20,7 @@ Some ideas to improve the functionality:
 - [ ] Remove eol_spaces
 - [ ] Configuration settings
 - [ ] Multiple directories
-- [ ] Safety mode with file copies
+- [x] Backup functionality
 - [ ] Ignore lines with ignore comment
 - [ ] GUI for settings, write in file mode?
 

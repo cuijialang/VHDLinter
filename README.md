@@ -24,7 +24,7 @@ Checks and/or formatting options for the following naming and coding conventions
 - [ ] Each line must contain only one VHDL statement
 - [x] No TAB characters should be used for indentation
 - [ ] Each line must be properly indented with 2 spaces per level of indentation
-- [ ] Source code has to be written in lower case, except for constant declarations
+- [x] Source code has to be written in lower case, except for constant declarations
 
 #### Signals, Variables and Constants
 - [x] Signal and variable names should be short, not exceeding 24 characters
@@ -43,7 +43,7 @@ Checks and/or formatting options for the following naming and coding conventions
 - [ ] Maps should contain only one port or generic per line
 
 #### Packages
-- [ ] Package should be indicated by suffixing *_pkg* to their name
+- [x] Package should be indicated by suffixing *_pkg* to their name
 - [ ] All defined types that are in the package should be commented
 - [ ] Self-defined types (except for state-machine states) should be defined in a library
 

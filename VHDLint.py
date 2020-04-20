@@ -1,6 +1,7 @@
 import os
 import platform
 import pyfiglet
+import shutil
 import config as cfg
 from termcolor import colored
 
@@ -15,11 +16,26 @@ class VHDLint:
     def get_files(self):
 
         files = []
+        file_dirs = []
         for f in os.listdir(self.dir):
             if f.endswith(".vhd"):
                 files.append(f)
-        return files
-
+                file_dirs.append(self.dir+f)
+        return files, file_dirs
+        
+        
+    def make_backup_copies(self, target_dir, file_names, file_paths):
+        
+        try:
+            os.mkdir(target_dir)
+        except:
+            pass
+        
+        i = 0
+        for original in file_paths:
+            target = target_dir + "/" + file_names[i]
+            shutil.copyfile(original, target)
+            i+=1
 
     def read_files(self, my_file):
 
@@ -116,6 +132,7 @@ class VHDLint:
 
     def tab2space(self, my_file):
 
+
         # TODO: edit lines[], not content
         f = open(self.dir + my_file, "r")
         content = f.read()
@@ -169,11 +186,9 @@ class VHDLint:
         for line in self.lines:
             content += line
 
-        # TODO: SafetyMode
         f = open(self.dir + my_file, "w")
         f.write(content)
-        f.close()
-
+        f.close()        
 
 
 if __name__ == "__main__":
@@ -184,7 +199,12 @@ if __name__ == "__main__":
 
     o = VHDLint()
 
-    FILES = o.get_files()
+
+    FILES, FILE_DIRS = o.get_files()
+    
+    if cfg.BACKUP:
+        bak_folder = cfg.bak_folder
+        o.make_backup_copies(bak_folder, FILES, FILE_DIRS)
 
     for my_file in FILES:
 
@@ -204,14 +224,18 @@ if __name__ == "__main__":
             #o.find_tabs()
             #o.find_reports()
             
-        if cfg.FORMATTING:      
+        if cfg.FORMATTING:
+                
             if cfg.delete_wspaces:
-                o.delete_wspaces(my_file)
+                pass
+                #o.delete_wspaces(my_file)
             
             if cfg.tab2space:
-                o.tab2space(my_file)
+                pass
+                #o.tab2space(my_file)
 
             if cfg.comment_space:
-                o.add_comment_space(my_file)
+                pass
+                #o.add_comment_space(my_file)
                 
             o.edit_file(my_file)

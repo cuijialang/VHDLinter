@@ -4,11 +4,13 @@ DIRECTORY = "../monitoring/"
 MAX_LINE_LENGTH = 80
 
 # Print to console
-CODE_CHECK = True
+CODE_CHECK = False
+
+BACKUP = True
+bak_folder = "./.bak"
 
 # Caution: File modifications can't be undone!
 FORMATTING = True
-
 delete_wspaces = True
 tab2space = False
 comment_space = False

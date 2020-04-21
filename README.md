@@ -22,7 +22,7 @@ Checks and/or formatting options for the following naming and coding conventions
 #### General
 - [x] The VHDL design filename should be same as entity name like *entityname.vhd*
 - [x] Source code must not exceed 80 characters per line
-- [ ] Each line must contain only one VHDL statement
+- [x] Each line must contain only one VHDL statement
 - [x] No TAB characters should be used for indentation
 - [ ] Each line must be properly indented with 2 spaces per level of indentation
 - [x] Source code has to be written in lower case, except for constant declarations

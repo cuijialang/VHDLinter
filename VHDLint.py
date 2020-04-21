@@ -77,6 +77,26 @@ class VHDLint:
                 print(str(i) + ", " + info + hint + ": " + line.lstrip())
             i += 1
 
+    def check_statements_per_line(self):
+
+        info = "Each line must contain only one VHDL statement"
+        i = 1
+        for line in self.lines:
+
+            # ? accept semicolons in comments
+            comment_bgn = line.find("--")
+            if comment_bgn != -1:
+                l_code = line[:comment_bgn].strip()
+            else:
+                l_code = line.strip()
+
+            chk = l_code.find(";", 0)
+
+            if l_code.find(";", chk+1) > chk:
+                print("yesss")
+                print(str(i) + ", " + info + ": " + line.lstrip())
+            i += 1
+
     def check_tabs(self):
 
         info = "TAB found"
@@ -343,6 +363,7 @@ if __name__ == "__main__":
         if cfg.CODE_CHECK:
 
             LNTR.check_line_length(cfg.MAX_LINE_LENGTH)
+            LNTR.check_statements_per_line()
             #LNTR.check_tabs()
             #LNTR.check_indenation()
             LNTR.check_lower_case()

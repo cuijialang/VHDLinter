@@ -4,6 +4,8 @@
 * [General info](#general-info)
 * [How to Use](#setup)
 * [Features](#features)
+    * [Code checking](#checking)
+    * [Formatting](#formatting)
 * [Preview](#preview)
 * [Source](#source)
 
@@ -17,7 +19,8 @@ To launch the app, save the repository folder in the same directory like your VH
 VHDLint supports code check and formatting options for VHDL Design Files (.vhd).<br />
 The following naming and coding conventions are supported:
 
-#### General
+### Code checking
+##### General
 - [x] VHDL file name should be *entity_name.vhd*
 - [x] Each line must contain only one VHDL statement
 - [x] Source code must not exceed 80 characters per line
@@ -25,33 +28,34 @@ The following naming and coding conventions are supported:
 - [ ] Line must be properly indented with 2 spaces per level of indentation
 - [x] Source code should be lower case, except for constant declarations
 
-#### Signals, Variables and Constants
+##### Signals, Variables and Constants
 - [x] Signal and variable names must not exceed 24 characters
 - [x] Vector range should be *MSB downto LSB*
 - [x] Constants should be written in upper-case
 - [ ] Unused variables or signals
 
-#### Entities
+##### Entities
 - [x] Ports shoud be ordered by their type (in, out)
 - [ ] Functionality of entities should be commented
 - [ ] Functionality of generics should be commented
 
-#### Architectures
+##### Architectures
 - [x] Arcitecture names are derived by their entity name and *_arc*-suffix
 - [ ] Port maps and generic maps should use named association
 - [ ] Maps should contain only one port or generic per line
 
-#### Packages
+##### Packages
 - [x] Package should be indicated by suffixing *_pkg* to their name
 - [X] Self-defined types (except for FSM types) should be in libraries
 - [ ] Self-defined types should be commented
 
-#### Formatting Options
-- [ ] Removing bad-whitespaces
-- [ ] Tab2Space functionality
-- [ ] Deletion of trailing whitespace
-- [ ] Create backup files
-- [ ] Create output file
+### Formatting
+##### Correcting
+- [x] Removing bad-whitespaces
+- [x] Tab2Space functionality
+- [x] Deletion of trailing whitespace
+- [x] Create backup files
+- [x] Create output file
 
 ## Preview
 <img src="images/preview.png" width="500">

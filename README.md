@@ -20,6 +20,7 @@ If the repository *VHDLint* folder is not in the same directory like your VHDL f
 Checks and/or formatting options for the following naming and coding conventions are supported:
 
 #### General
+- [x] The VHDL design filename should be same as entity name like *entityname.vhd*
 - [x] Source code must not exceed 80 characters per line
 - [ ] Each line must contain only one VHDL statement
 - [x] No TAB characters should be used for indentation
@@ -38,7 +39,7 @@ Checks and/or formatting options for the following naming and coding conventions
 - [ ] If generics are preset, their function should be commented
 
 #### Architectures
-- [ ] The arcitecture name is derived from the entity name by suffixing it with *_arc*
+- [x] The arcitecture name is derived from the entity name by suffixing it with *_arc*
 - [ ] Port maps and generic maps should use named association
 - [ ] Maps should contain only one port or generic per line
 
@@ -62,4 +63,4 @@ Some ideas to improve the functionality:
 
 ## Source
 The functionality is based on the idea of having something like *Pylint* for VHDL code; *VHDLint*.
-All suported checks for the listed coding conventions in VHDL are based on [**VHDL Style Guide**](https://www.ims-chips.de/content/pdftext/VHDL_Style_Guide.pdf) by IMS CHIPS.
+All suported checks for the listed coding conventions in VHDL are based on [**VHDL coding style in Department of Computer Systems**](http://www.tkt.cs.tut.fi/kurssit/1212/S08/Harjoitukset/vhdl_coding.html) by Tampere University of Technology and [**VHDL Style Guide**](https://www.ims-chips.de/content/pdftext/VHDL_Style_Guide.pdf) by IMS CHIPS.

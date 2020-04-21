@@ -77,6 +77,15 @@ class VHDLint:
                 print(str(i) + ", " + info + hint + ": " + line.lstrip())
             i += 1
 
+    def rm_comment(self, line):
+
+        # ignore comments
+        comment_bgn = line.find("--")
+        if comment_bgn != -1:
+            return line[:comment_bgn].strip()
+        else:
+            return line.strip()
+
     def check_statements_per_line(self):
 
         info = "Each line must contain only one VHDL statement"
@@ -84,17 +93,12 @@ class VHDLint:
         for line in self.lines:
 
             # ignore comments
-            comment_bgn = line.find("--")
-            if comment_bgn != -1:
-                l_code = line[:comment_bgn].strip()
-            else:
-                l_code = line.strip()
+            line_ic = self.rm_comment(line)
 
-            chk = l_code.find(";", 0)
+            chk = line_ic.find(";", 0)
 
-            if l_code.find(";", chk+1) > chk:
-                print("yesss")
-                print(str(i) + ", " + info + ": " + line.lstrip())
+            if line_ic.find(";", chk+1) > chk:
+                print(str(i) + ", " + info + ": " + line_ic)
             i += 1
 
     def check_tabs(self):
@@ -151,23 +155,19 @@ class VHDLint:
                     break;
 
             # ignore comments
-            comment_bgn = line.find("--")
-            if comment_bgn != -1:
-                l_code = line[:comment_bgn].strip()
-            else:
-                l_code = line.strip()
+            line_ic = self.rm_comment(line)
 
             lower_case = True
-            for pos in range(0, len(l_code)):
-                if l_code[pos].isalpha() and l_code[pos].isupper():
+            for pos in range(0, len(line_ic)):
+                if line_ic[pos].isalpha() and line_ic[pos].isupper():
                     lower_case = False
 
             if not lower_case and not excep_name:
-                print(str(i) + ", " + info + ": " + l_code)
+                print(str(i) + ", " + info + ": " + line_ic)
             i += 1
 
 
-    def check_signal_names(self):
+    def check_signal_names(self, max_name_length):
 
         info = "Bad naming style for signal"
         i = 1
@@ -177,11 +177,11 @@ class VHDLint:
             if name_bgn != -1 and (name_bgn < chk_comment or chk_comment == -1):
                 l_ss = line[name_bgn+len("signal"):].strip()
                 signal_name = l_ss[:l_ss.find(" ")]
-                if len(signal_name) > 24:
+                if len(signal_name) > max_name_length:
                     print(str(i) + ", " + info + ": " + signal_name)
             i += 1
 
-    def check_var_names(self):
+    def check_var_names(self, max_name_length):
 
         info = "Bad naming style for variable"
         i = 1
@@ -191,7 +191,7 @@ class VHDLint:
             if name_bgn != -1 and (name_bgn < chk_comment or chk_comment == -1):
                 l_ss = line[name_bgn+len("variable"):].strip()
                 var_name = l_ss[:l_ss.find(" ")]
-                if len(var_name) > 24:
+                if len(var_name) > max_name_length:
                     print(str(i) + ", " + info + ": " + var_name)
             i += 1
 
@@ -232,6 +232,20 @@ class VHDLint:
             i += 1
         #TODO: Check port order
         print(entity)
+
+    def check_msb_to_lsb(self):
+
+        info = "Vector range should be MSB to LSB"
+        i = 1
+        for line in self.lines:
+            if line.lower().find("std_logic_vector") != -1:
+
+                chk_to = line.lower().find(" to ")
+                chk_downto = line.lower().find(" downto ")
+
+                if chk_downto == -1 and chk_to != -1:
+                    print(str(i) + ", " + info + ": " + line.lstrip())
+            i += 1
 
     def check_time_units(self):
 
@@ -390,8 +404,8 @@ if __name__ == "__main__":
             #LNTR.check_indenation()
             LNTR.check_constant_names()
             LNTR.check_lower_case()
-            LNTR.check_signal_names()
-            LNTR.check_var_names()
+            LNTR.check_signal_names(cfg.MAX_SIGNAL_NAME_LENGTH)
+            LNTR.check_var_names(cfg.MAX_VARIABLE_NAME_LENGTH)
             LNTR.check_pkg_name()
             LNTR.check_arc_name()
 

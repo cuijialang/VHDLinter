@@ -4,13 +4,15 @@
 DIRECTORY = "../monitoring/"
 
 MAX_LINE_LENGTH = 80
+MAX_SIGNAL_NAME_LENGTH = 24
+MAX_VARIABLE_NAME_LENGTH = 24
 SPACES_PER_TAB = 4
 
 # Filename check
 FILE_NAME_CHECK = True
 
 # Print to console
-CODE_CHECK = False
+CODE_CHECK = True
 
 BACKUP = True
 BAK_FOLDER = "./.bak"

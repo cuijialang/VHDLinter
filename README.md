@@ -28,8 +28,8 @@ The following naming and coding conventions are supported:
 - [x] Source code has to be written in lower case, except for constant declarations
 
 #### Signals, Variables and Constants
-- [x] Signal and variable names should be short, not exceeding 24 characters
-- [ ] If the signal is a vector, the range is defined as *msb downto lsb*
+- [x] Signal and variable names must not exceed 24 characters
+- [x] Vector range should be *msb downto lsb*
 - [x] Constants should be written in upper-case
 
 #### Entities

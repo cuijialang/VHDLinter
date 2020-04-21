@@ -6,6 +6,9 @@ DIRECTORY = "../monitoring/"
 MAX_LINE_LENGTH = 80
 SPACES_PER_TAB = 4
 
+# Filename check
+FILE_NAME_CHECK = True
+
 # Print to console
 CODE_CHECK = False
 

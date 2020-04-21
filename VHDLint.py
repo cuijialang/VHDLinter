@@ -10,7 +10,7 @@ class VHDLint:
     def __init__(self):
 
         self.dir = cfg.DIRECTORY
-        self.max_line_length = cfg.MAX_LINE_LENGTH
+        self.content = ""
         self.lines = []
 
     def get_files(self):
@@ -36,25 +36,44 @@ class VHDLint:
             shutil.copyfile(original, target)
             i += 1
 
-    def get_lines(self, my_file):
-        self.lines = []
-        line_no = 0
-        f = open(self.dir+my_file, "r")
+    def get_content(self, f_name):
+
+        f = open(self.dir+f_name, "r")
         if f.mode == "r":
+            self.content = f.read()
+        f.close()
+
+    def get_lines(self, f_name):
+
+        line_no = 0
+        f = open(self.dir+f_name, "r")
+        if f.mode == "r":
+            self.lines = []
             f_lines = f.readlines()
             for line in f_lines:
                 line_no += 1
                 self.lines.append(line)
-            f.close()
-            
-    def check_line_length(self):
+        f.close()
+
+    def check_file_name(self, f_name):
+
+        info = "Bad file or entity name (entity_name.vhd)"
+        i = 1
+        entity_keys = ["entity ", " is"]
+        for line in self.lines:
+            if all(k in line for k in entity_keys):
+                if line.lower().find(f_name[:-4]) == -1:
+                    print(str(i) + ", " + info + ": " + f_name)
+            i += 1
+
+    def check_line_length(self, max_line_length):
 
         info = "Line too long"
         i = 1
         for line in self.lines:
             line_length = len(line)
-            if line_length > self.max_line_length:
-                hint = " (" + str(line_length) + "/" + str(self.max_line_length) + ")"
+            if line_length > max_line_length:
+                hint = " (" + str(line_length) + "/" + str(max_line_length) + ")"
                 print(str(i) + ", " + info + hint + ": " + line.lstrip())
             i += 1
 
@@ -67,47 +86,47 @@ class VHDLint:
             if chk1 != -1:
                 print(str(i) + ", " + info + ": " + line.lstrip())
             i += 1
-            
+
     def check_indenation(self):
-    
+
         info = "TODO"
 
     def check_lower_case(self):
-        
+
         info = "Use lower case"
         i = 1
-        
+
         # TODO: add constant_names list
         exceptions = [" N"," T", "N_", "T_"]
-        
+
         for line in self.lines:
-            
+
             excep_name = False
             for ex in exceptions:
                 ex_chk = line.find(ex)
                 if ex_chk != -1:
                     excep_name = True
                     break;
-        
+
             # ? accept upper case in comments
             comment_bgn = line.find("--")
             if comment_bgn != -1:
                 l_code = line[:comment_bgn].strip()
             else:
                 l_code = line.strip()
-            
+
             lower_case = True
             for pos in range(0, len(l_code)):
                 if l_code[pos].isalpha() and l_code[pos].isupper():
-                    lower_case = False          
-            
+                    lower_case = False
+
             if not lower_case and not excep_name:
                 print(str(i) + ", " + info + ": " + l_code)
             i += 1
-                
+
 
     def check_signal_names(self):
-    
+
         info = "Bad naming style for signal"
         i = 1
         for line in self.lines:
@@ -121,7 +140,7 @@ class VHDLint:
             i += 1
 
     def check_var_names(self):
-    
+
         info = "Bad naming style for variable"
         i = 1
         for line in self.lines:
@@ -134,18 +153,28 @@ class VHDLint:
                     print(str(i) + ", " + info + ": " + var_name)
             i += 1
 
-    def check_pkg_ending(self):
-    
-        info = "Bad naming style for package"
+    def check_pkg_name(self):
+
+        info = "Bad naming style for package (_pkg)"
         i = 1
+        pack_keys = ["package ", " is"]
         for line in self.lines:
-            chk1 = line.lower().find("package ")
-            chk2 = line.lower().find(" is")
-            chk3 = line.lower().find("_pkg ")
-            if chk1 != -1 and chk2 != -1 and chk3 == -1:
-                print(str(i) + ", " + info + ": " + line.lstrip())
+            if all(k in line for k in pack_keys):
+                if line.lower().find("_pkg ") == -1:
+                    print(str(i) + ", " + info + ": " + line.lstrip())
             i += 1
-            
+
+    def check_arc_name(self):
+
+        info = "Bad naming style for architecture (_arc)"
+        i = 1
+        arch_keys = ["architecture ", " of ", " is"]
+        for line in self.lines:
+            if all(k in line for k in arch_keys):
+                if line.lower().find("_arc") == -1:
+                    print(str(i) + ", " + info + ": " + line.lstrip())
+            i += 1
+
     def check_port_order(self):
         info = "Wrong port order"
         i = 1
@@ -161,7 +190,7 @@ class VHDLint:
             i += 1
         #TODO: Check port order
         print(entity)
-            
+
     def check_time_units(self):
 
         info = "Add space before time unit!"
@@ -187,7 +216,7 @@ class VHDLint:
             if chk != -1 and (chk_e1 == -1 and chk_e2 == -1):
                 print(str(i) + ", " + info + ": " + line.lstrip())
             i += 1
-    
+
     def check_comments(self):
 
         info = "Ugly comment"
@@ -211,7 +240,7 @@ class VHDLint:
             if chk1 != -1:
                 print(str(i) + ", " + info + ": " + line.lstrip())
             i += 1
-    
+
     def check_semicolons(self):
 
         info = "Space before semicolon"
@@ -274,13 +303,13 @@ class VHDLint:
             i += 1
 
 
-    def edit_file(self, my_file):
+    def edit_file(self, f_name):
 
         content = ""
         for line in self.lines:
             content += line.rstrip()+"\n"
 
-        f = open(self.dir + my_file, "w")
+        f = open(self.dir + f_name, "w")
         f.write(content)
         f.close()
 
@@ -299,27 +328,32 @@ if __name__ == "__main__":
     if cfg.BACKUP:
         LNTR.make_backup_copies(cfg.BAK_FOLDER, FILES, FILE_DIRS)
 
-    for my_file in FILES:
+    for f_name in FILES:
 
         if platform.platform().find("Linux") == -1:
             os.system('color')
-        print(colored("************ " + my_file, cfg.COLOR_FILENAME))
+        print(colored("************ " + f_name, cfg.COLOR_FILENAME))
 
-        LNTR.get_lines(my_file)
-        #
-        LNTR.check_port_order()
+        LNTR.get_content(f_name)
+        LNTR.get_lines(f_name)
+
+        if cfg.FILE_NAME_CHECK:
+            LNTR.check_file_name(f_name)
 
         if cfg.CODE_CHECK:
 
-            LNTR.check_line_length()
+            LNTR.check_line_length(cfg.MAX_LINE_LENGTH)
             #LNTR.check_tabs()
             #LNTR.check_indenation()
             LNTR.check_lower_case()
             LNTR.check_signal_names()
             LNTR.check_var_names()
-            LNTR.check_pkg_ending()
-            LNTR.check_port_order()
-            
+            LNTR.check_pkg_name()
+            LNTR.check_arc_name()
+
+            LNTR.check_port_order() #TODO
+            LNTR.check_msb_to_lsb() #TODO
+
             LNTR.check_comments()
             LNTR.check_semicolons()
             LNTR.check_time_units()
@@ -335,4 +369,4 @@ if __name__ == "__main__":
                 LNTR.make_pretty_comment()
 
             # edit file and delete whitespaces
-            LNTR.edit_file(my_file)
+            LNTR.edit_file(f_name)

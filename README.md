@@ -53,13 +53,13 @@ Checks and/or formatting options for the following naming and coding conventions
 
 ## To Do
 Some ideas to improve the functionality:
-* Add more linter functionality
-* Get Pylint inspiration
+* Support more features!
 * Add configuration settings
 * Support multiple directories
 * Ignore lines with ignore comment
+* Implement code rating ?
 * GUI ?
 
 ## Source
-The functionality is based on the idea of the python linter *Pylint* for VHDL - VHDLint.
+The functionality is based on the idea of having something like *Pylint* for VHDL code; *VHDLint*.
 All suported checks for the listed coding conventions in VHDL are based on [**VHDL Style Guide**](https://www.ims-chips.de/content/pdftext/VHDL_Style_Guide.pdf) by IMS CHIPS.

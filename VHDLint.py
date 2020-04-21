@@ -83,7 +83,7 @@ class VHDLint:
         i = 1
         for line in self.lines:
 
-            # ? accept semicolons in comments
+            # ignore comments
             comment_bgn = line.find("--")
             if comment_bgn != -1:
                 l_code = line[:comment_bgn].strip()
@@ -111,6 +111,28 @@ class VHDLint:
 
         info = "TODO"
 
+    def check_constant_names(self):
+
+        info = "constant names must be upper case"
+        i = 1
+        constant_keys = ["constant ", ":", ";"]
+        for line in self.lines:
+            if all(k in line for k in constant_keys):
+                bgn = line.find("constant") + len("constant")
+                end = line.find(":")
+                constant_name = line[bgn:end]
+
+                upper_case = True
+                for c in range(0, len(constant_name)):
+                    if constant_name[c].isalpha() and constant_name[c].islower():
+                        upper_case = False
+
+                if not upper_case:
+                    print(str(i) + ", " + info + ": constant" + constant_name)
+            i += 1
+
+
+
     def check_lower_case(self):
 
         info = "Use lower case"
@@ -128,7 +150,7 @@ class VHDLint:
                     excep_name = True
                     break;
 
-            # ? accept upper case in comments
+            # ignore comments
             comment_bgn = line.find("--")
             if comment_bgn != -1:
                 l_code = line[:comment_bgn].strip()
@@ -366,6 +388,7 @@ if __name__ == "__main__":
             LNTR.check_statements_per_line()
             #LNTR.check_tabs()
             #LNTR.check_indenation()
+            LNTR.check_constant_names()
             LNTR.check_lower_case()
             LNTR.check_signal_names()
             LNTR.check_var_names()

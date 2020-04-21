@@ -16,8 +16,8 @@ To launch the app, open the *VHDLint.py* script via the console.
 If the repository *VHDLint* folder is not in the same directory like your VHDL files, edit the configuration settings in *config.py* first.
 
 ## Features
-*VHDLint* supports code check and formatting options for VHDL Design Files (.vhd).
-Checks and/or formatting options for the following naming and coding conventions are supported:
+*VHDLint* supports code check and formatting options for VHDL Design Files (.vhd).<br />
+The following naming and coding conventions are supported:
 
 #### General
 - [x] The VHDL design filename should be same as entity name like *entityname.vhd*
@@ -30,7 +30,7 @@ Checks and/or formatting options for the following naming and coding conventions
 #### Signals, Variables and Constants
 - [x] Signal and variable names should be short, not exceeding 24 characters
 - [ ] If the signal is a vector, the range is defined as *msb downto lsb*
-- [ ] Constants should be written in upper-case
+- [x] Constants should be written in upper-case
 
 #### Entities
 - [ ] The functionality of an entity should be commented
@@ -63,4 +63,4 @@ Some ideas to improve the functionality:
 
 ## Source
 The functionality is based on the idea of having something like *Pylint* for VHDL code; *VHDLint*.
-All suported checks for the listed coding conventions in VHDL are based on [**VHDL coding style in Department of Computer Systems**](http://www.tkt.cs.tut.fi/kurssit/1212/S08/Harjoitukset/vhdl_coding.html) by Tampere University of Technology and [**VHDL Style Guide**](https://www.ims-chips.de/content/pdftext/VHDL_Style_Guide.pdf) by IMS CHIPS.
+The suported checks for the listed coding conventions in VHDL are based on [**VHDL coding style in Department of Computer Systems**](http://www.tkt.cs.tut.fi/kurssit/1212/S08/Harjoitukset/vhdl_coding.html) by Tampere University of Technology and [**VHDL Style Guide**](https://www.ims-chips.de/content/pdftext/VHDL_Style_Guide.pdf) by IMS CHIPS.

@@ -9,18 +9,18 @@
 * [Source](#source)
 
 ## General info
-*VHDLint* is a small linter for the VHDL language, which looks for programming errors and helps enforcing a coding standard.
+VHDLint is a small linter for the VHDL language, which looks for programming errors and helps enforcing a coding standard.
 
 ## How to Use
-To launch the app, open the *VHDLint.py* script via the console.
-If the repository *VHDLint* folder is not in the same directory like your VHDL files, edit the configuration settings in *config.py* first.
+Save the repository folder in the same directory like your VHDL design files. To launch the app, open the *VHDLint.py* script via the console.
+If the repository folder is not in the same directory like your VHDL files, the configuration settings in *config.py* may be edited.
 
 ## Features
-*VHDLint* supports code check and formatting options for VHDL Design Files (.vhd).<br />
+VHDLint supports code check and formatting options for VHDL Design Files (.vhd).<br />
 The following naming and coding conventions are supported:
 
 #### General
-- [x] The VHDL design filename should be same as entity name like *entityname.vhd*
+- [x] VHDL file name and entity name should be similar, like *entityname.vhd*
 - [x] Source code must not exceed 80 characters per line
 - [x] Each line must contain only one VHDL statement
 - [x] No TAB characters should be used for indentation
@@ -34,8 +34,7 @@ The following naming and coding conventions are supported:
 
 #### Entities
 - [ ] The functionality of an entity should be commented
-- [ ] Ports shoud be ordered by their function
-- [ ] Ports can only be one of the following types: *in*, *out* or *inout*
+- [x] Ports shoud be ordered by their type (in, out)
 - [ ] If generics are preset, their function should be commented
 
 #### Architectures
@@ -45,8 +44,8 @@ The following naming and coding conventions are supported:
 
 #### Packages
 - [x] Package should be indicated by suffixing *_pkg* to their name
+- [X] Self-defined types (except for FSM) should be defined in a library
 - [ ] All defined types that are in the package should be commented
-- [ ] Self-defined types (except for state-machine states) should be defined in a library
 
 
 ## Preview
@@ -63,4 +62,4 @@ Some ideas to improve the functionality:
 
 ## Source
 The functionality is based on the idea of having something like *Pylint* for VHDL code; *VHDLint*.
-The suported checks for the listed coding conventions in VHDL are based on [**VHDL coding style in Department of Computer Systems**](http://www.tkt.cs.tut.fi/kurssit/1212/S08/Harjoitukset/vhdl_coding.html) by Tampere University of Technology and [**VHDL Style Guide**](https://www.ims-chips.de/content/pdftext/VHDL_Style_Guide.pdf) by IMS CHIPS.
+The suported checks for the listed coding conventions in VHDL follow suggestions in [**VHDL coding style**](http://www.tkt.cs.tut.fi/kurssit/1212/S08/Harjoitukset/vhdl_coding.html) by Tampere University of Technology and [**VHDL Style Guide**](https://www.ims-chips.de/content/pdftext/VHDL_Style_Guide.pdf) by IMS CHIPS.

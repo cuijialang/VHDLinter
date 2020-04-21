@@ -220,23 +220,76 @@ class VHDLint:
     def check_port_order(self):
         info = "Wrong port order"
         i = 1
-        entity=""
-        entity_dec = False
+        entity_dec_keys = ["entity ", " is"]
+        entity_lines=[]
+        entity_found = False
+
         for line in self.lines:
-            if line.lower().find("entity ") != -1 or entity_dec:
-                entity += line
-                entity_dec = True
-                if line.lower().find("end ") != -1:
-                    entity_dec = False
+
+            if all(k in line for k in entity_dec_keys):
+                entity_found = True
+                j = i
+
+            if entity_found:
+                entity_lines.append(line)
+                if line.lower().find("end") != -1:
                     break;
             i += 1
-        #TODO: Check port order
-        print(entity)
+
+        in_pos = False
+        out_pos = False
+
+        for line in entity_lines:
+
+            in_chk = line.find("in ")
+            if in_chk != -1:
+                in_pos = True
+
+            out_chk = line.find("out ")
+            if out_chk != -1:
+                out_pos = True
+
+            if out_pos and in_chk != -1:
+                print(str(j) + ", " + info + ": " + line.lstrip())
+            j += 1
+
+    def check_port_declaration(self):
+
+        info = "Missing space before"
+        i = 1
+        entity_dec_keys = ["entity ", " is"]
+        entity_lines=[]
+        entity_found = False
+
+        for line in self.lines:
+
+            if all(k in line for k in entity_dec_keys):
+                entity_found = True
+                j = i
+
+            if entity_found:
+                entity_lines.append(line)
+                if line.lower().find("end") != -1:
+                    break;
+            i += 1
+
+        for line in entity_lines:
+
+            if line.find("in ") != -1 and line.find(": in") == -1:
+                print(str(j) + ", " + info + " in port : " + line.lstrip())
+
+            if line.find("out ") != -1 and line.find(": out") == -1:
+                print(str(j) + ", " + info + " out port : " + line.lstrip())
+
+            if line.find("inout ") != -1 and line.find(": inout") == -1:
+                print(str(j) + ", " + info + " inout port : " + line.lstrip())
+            j += 1
 
     def check_msb_to_lsb(self):
 
         info = "Vector range should be MSB to LSB"
         i = 1
+
         for line in self.lines:
             if line.lower().find("std_logic_vector") != -1:
 
@@ -244,6 +297,19 @@ class VHDLint:
                 chk_downto = line.lower().find(" downto ")
 
                 if chk_downto == -1 and chk_to != -1:
+                    print(str(i) + ", " + info + ": " + line.lstrip())
+            i += 1
+
+    def check_user_def_types(self, f_name):
+
+        info = "Self-defined types must be in package (_pkg) file"
+        i = 1
+
+        type_keys = ["type ", " is"]
+        for line in self.lines:
+
+            if all(k in line for k in type_keys):
+                if f_name.find("_pkg") == -1 and line.lower().find("fsm") == -1:
                     print(str(i) + ", " + info + ": " + line.lstrip())
             i += 1
 
@@ -409,8 +475,11 @@ if __name__ == "__main__":
             LNTR.check_pkg_name()
             LNTR.check_arc_name()
 
-            LNTR.check_port_order() #TODO
-            LNTR.check_msb_to_lsb() #TODO
+            LNTR.check_port_order()
+            LNTR.check_port_declaration()
+            LNTR.check_msb_to_lsb()
+
+            LNTR.check_user_def_types(f_name)
 
             LNTR.check_comments()
             LNTR.check_semicolons()

@@ -12,6 +12,7 @@ class VHDLint:
         self.dir = cfg.DIRECTORY
         self.content = ""
         self.lines = []
+        self.constants = []
 
     def get_files(self):
 
@@ -82,9 +83,8 @@ class VHDLint:
         # ignore comments
         comment_bgn = line.find("--")
         if comment_bgn != -1:
-            return line[:comment_bgn].strip()
-        else:
-            return line.strip()
+            line = line[:comment_bgn].strip()
+        return line.strip()
 
     def check_statements_per_line(self):
 
@@ -112,19 +112,20 @@ class VHDLint:
             i += 1
 
     def check_indenation(self):
-
-        info = "TODO"
+        pass #TODO
 
     def check_constant_names(self):
 
-        info = "constant names must be upper case"
+        info = "Constant name should be upper case"
         i = 1
+        self.constants = []
         constant_keys = ["constant ", ":", ";"]
         for line in self.lines:
             if all(k in line for k in constant_keys):
                 bgn = line.find("constant") + len("constant")
                 end = line.find(":")
                 constant_name = line[bgn:end]
+                self.constants.append(constant_name.strip())
 
                 upper_case = True
                 for c in range(0, len(constant_name)):
@@ -136,14 +137,14 @@ class VHDLint:
             i += 1
 
 
-
     def check_lower_case(self):
 
         info = "Use lower case"
         i = 1
 
-        # TODO: add constant_names list
-        exceptions = [" N"," T", "N_", "T_"]
+        exceptions = [" N", " T", "N_", "T_"]
+        exceptions.extend(self.constants)
+        print(exceptions)
 
         for line in self.lines:
 
@@ -152,7 +153,7 @@ class VHDLint:
                 ex_chk = line.find(ex)
                 if ex_chk != -1:
                     excep_name = True
-                    break;
+                    break
 
             # ignore comments
             line_ic = self.rm_comment(line)
@@ -221,7 +222,7 @@ class VHDLint:
         info = "Wrong port order"
         i = 1
         entity_dec_keys = ["entity ", " is"]
-        entity_lines=[]
+        entity_lines = []
         entity_found = False
 
         for line in self.lines:
@@ -231,9 +232,9 @@ class VHDLint:
                 j = i
 
             if entity_found:
-                entity_lines.append(line)
+                entity_lines.append(line.strip())
                 if line.lower().find("end") != -1:
-                    break;
+                    break
             i += 1
 
         in_pos = False
@@ -250,7 +251,7 @@ class VHDLint:
                 out_pos = True
 
             if out_pos and in_chk != -1:
-                print(str(j) + ", " + info + ": " + line.lstrip())
+                print(str(j) + ", " + info + ": " + line)
             j += 1
 
     def check_port_declaration(self):
@@ -258,7 +259,7 @@ class VHDLint:
         info = "Missing space before"
         i = 1
         entity_dec_keys = ["entity ", " is"]
-        entity_lines=[]
+        entity_lines = []
         entity_found = False
 
         for line in self.lines:
@@ -268,21 +269,21 @@ class VHDLint:
                 j = i
 
             if entity_found:
-                entity_lines.append(line)
+                entity_lines.append(line.strip())
                 if line.lower().find("end") != -1:
-                    break;
+                    break
             i += 1
 
         for line in entity_lines:
 
             if line.find("in ") != -1 and line.find(": in") == -1:
-                print(str(j) + ", " + info + " in port : " + line.lstrip())
+                print(str(j) + ", " + info + " in port : " + line)
 
             if line.find("out ") != -1 and line.find(": out") == -1:
-                print(str(j) + ", " + info + " out port : " + line.lstrip())
+                print(str(j) + ", " + info + " out port : " + line)
 
             if line.find("inout ") != -1 and line.find(": inout") == -1:
-                print(str(j) + ", " + info + " inout port : " + line.lstrip())
+                print(str(j) + ", " + info + " inout port : " + line)
             j += 1
 
     def check_msb_to_lsb(self):
@@ -326,9 +327,9 @@ class VHDLint:
                     print(str(i) + ", " + info + ": " + line.lstrip())
             i += 1
 
-    def trailing_spaces(self):
+    def trailing_whitespace(self):
 
-        info = "Trailing Spaces"
+        info = "Trailing whitespace"
         i = 1
         for line in self.lines:
             line = line.lstrip()
@@ -464,28 +465,36 @@ if __name__ == "__main__":
 
         if cfg.CODE_CHECK:
 
-            LNTR.check_line_length(cfg.MAX_LINE_LENGTH)
+            # General
             LNTR.check_statements_per_line()
-            #LNTR.check_tabs()
+            LNTR.check_line_length(cfg.MAX_LINE_LENGTH)
+            LNTR.check_tabs()
             #LNTR.check_indenation()
             LNTR.check_constant_names()
             LNTR.check_lower_case()
+
+            # Signals, Variables and Constants
             LNTR.check_signal_names(cfg.MAX_SIGNAL_NAME_LENGTH)
             LNTR.check_var_names(cfg.MAX_VARIABLE_NAME_LENGTH)
-            LNTR.check_pkg_name()
-            LNTR.check_arc_name()
-
-            LNTR.check_port_order()
-            LNTR.check_port_declaration()
             LNTR.check_msb_to_lsb()
 
+            # Entities
+            LNTR.check_port_order()
+            LNTR.check_port_declaration()
+
+            # Architectures
+            LNTR.check_arc_name()
+
+            # Packages
+            LNTR.check_pkg_name()
             LNTR.check_user_def_types(f_name)
 
-            LNTR.check_comments()
+            # Others
+            #LNTR.find_reports()
+            #LNTR.check_comments()
             LNTR.check_semicolons()
             LNTR.check_time_units()
-            LNTR.trailing_spaces()
-            #LNTR.find_reports()
+            LNTR.trailing_whitespace()
 
         if cfg.FORMATTING:
 

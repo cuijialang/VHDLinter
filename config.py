@@ -12,7 +12,7 @@ SPACES_PER_TAB = 4
 FILE_NAME_CHECK = True
 
 # Print to console
-CODE_CHECK = False
+CODE_CHECK = True
 
 BACKUP = True
 BAK_FOLDER = "./.bak"

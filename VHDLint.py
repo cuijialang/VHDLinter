@@ -13,6 +13,7 @@ class VHDLint:
         self.content = ""
         self.lines = []
         self.constants = []
+        self.linter_out = ""
 
     def get_files(self):
 
@@ -64,7 +65,7 @@ class VHDLint:
         for line in self.lines:
             if all(k in line for k in entity_keys):
                 if line.lower().find(f_name[:-4]) == -1:
-                    print(str(i) + ", " + info + ": " + f_name)
+                     self.linter_out += str(i) + ", " + info + ": " + f_name +"\n"
             i += 1
 
     def check_line_length(self, max_line_length):
@@ -75,7 +76,7 @@ class VHDLint:
             line_length = len(line)
             if line_length > max_line_length:
                 hint = " (" + str(line_length) + "/" + str(max_line_length) + ")"
-                print(str(i) + ", " + info + hint + ": " + line.lstrip())
+                self.linter_out += str(i) + ", " + info + hint + ": " + line.lstrip() + "\n"
             i += 1
 
     def rm_comment(self, line):
@@ -98,7 +99,7 @@ class VHDLint:
             chk = line_ic.find(";", 0)
 
             if line_ic.find(";", chk+1) > chk:
-                print(str(i) + ", " + info + ": " + line_ic)
+                self.linter_out += str(i) + ", " + info + ": " + line_ic + "\n"
             i += 1
 
     def check_tabs(self):
@@ -108,7 +109,7 @@ class VHDLint:
         for line in self.lines:
             chk1 = line.lower().find("\t", 0)
             if chk1 != -1:
-                print(str(i) + ", " + info + ": " + line.lstrip())
+                self.linter_out += str(i) + ", " + info + ": " + line.lstrip() + "\n"
             i += 1
 
     def check_indenation(self):
@@ -133,7 +134,7 @@ class VHDLint:
                         upper_case = False
 
                 if not upper_case:
-                    print(str(i) + ", " + info + ": constant" + constant_name)
+                    self.linter_out += str(i) + ", " + info + ": constant" + constant_name + "\n"
             i += 1
 
 
@@ -144,7 +145,6 @@ class VHDLint:
 
         exceptions = [" N", " T", "N_", "T_"]
         exceptions.extend(self.constants)
-        print(exceptions)
 
         for line in self.lines:
 
@@ -164,7 +164,7 @@ class VHDLint:
                     lower_case = False
 
             if not lower_case and not excep_name:
-                print(str(i) + ", " + info + ": " + line_ic)
+                self.linter_out += str(i) + ", " + info + ": " + line_ic + "\n"
             i += 1
 
 
@@ -179,7 +179,7 @@ class VHDLint:
                 l_ss = line[name_bgn+len("signal"):].strip()
                 signal_name = l_ss[:l_ss.find(" ")]
                 if len(signal_name) > max_name_length:
-                    print(str(i) + ", " + info + ": " + signal_name)
+                    self.linter_out += str(i) + ", " + info + ": " + signal_name + "\n"
             i += 1
 
     def check_var_names(self, max_name_length):
@@ -193,7 +193,7 @@ class VHDLint:
                 l_ss = line[name_bgn+len("variable"):].strip()
                 var_name = l_ss[:l_ss.find(" ")]
                 if len(var_name) > max_name_length:
-                    print(str(i) + ", " + info + ": " + var_name)
+                    self.linter_out += str(i) + ", " + info + ": " + var_name + "\n"
             i += 1
 
     def check_pkg_name(self):
@@ -204,7 +204,7 @@ class VHDLint:
         for line in self.lines:
             if all(k in line for k in pack_keys):
                 if line.lower().find("_pkg ") == -1:
-                    print(str(i) + ", " + info + ": " + line.lstrip())
+                    self.linter_out += str(i) + ", " + info + ": " + line.lstrip() + "\n"
             i += 1
 
     def check_arc_name(self):
@@ -215,7 +215,7 @@ class VHDLint:
         for line in self.lines:
             if all(k in line for k in arch_keys):
                 if line.lower().find("_arc") == -1:
-                    print(str(i) + ", " + info + ": " + line.lstrip())
+                    self.linter_out += str(i) + ", " + info + ": " + line.lstrip() + "\n"
             i += 1
 
     def check_port_order(self):
@@ -251,7 +251,7 @@ class VHDLint:
                 out_pos = True
 
             if out_pos and in_chk != -1:
-                print(str(j) + ", " + info + ": " + line)
+                self.linter_out += str(j) + ", " + info + ": " + line + "\n"
             j += 1
 
     def check_port_declaration(self):
@@ -277,13 +277,13 @@ class VHDLint:
         for line in entity_lines:
 
             if line.find("in ") != -1 and line.find(": in") == -1:
-                print(str(j) + ", " + info + " in port : " + line)
+                self.linter_out += str(j) + ", " + info + " in port : " + line + "\n"
 
             if line.find("out ") != -1 and line.find(": out") == -1:
-                print(str(j) + ", " + info + " out port : " + line)
+                self.linter_out += str(j) + ", " + info + " out port : " + line + "\n"
 
             if line.find("inout ") != -1 and line.find(": inout") == -1:
-                print(str(j) + ", " + info + " inout port : " + line)
+                self.linter_out += str(j) + ", " + info + " inout port : " + line  + "\n"
             j += 1
 
     def check_msb_to_lsb(self):
@@ -298,7 +298,7 @@ class VHDLint:
                 chk_downto = line.lower().find(" downto ")
 
                 if chk_downto == -1 and chk_to != -1:
-                    print(str(i) + ", " + info + ": " + line.lstrip())
+                    self.linter_out += str(i) + ", " + info + ": " + line.lstrip() + "\n"
             i += 1
 
     def check_user_def_types(self, f_name):
@@ -311,7 +311,7 @@ class VHDLint:
 
             if all(k in line for k in type_keys):
                 if f_name.find("_pkg") == -1 and line.lower().find("fsm") == -1:
-                    print(str(i) + ", " + info + ": " + line.lstrip())
+                    self.linter_out += str(i) + ", " + info + ": " + line.lstrip() + "\n"
             i += 1
 
     def check_time_units(self):
@@ -324,7 +324,7 @@ class VHDLint:
                 chk2 = line.lower().find(unit + " ", 0)
                 chk_correct = line.lower().find(" " + unit, 0)
                 if (chk1 != -1 or chk2 != -1) and chk_correct == -1:
-                    print(str(i) + ", " + info + ": " + line.lstrip())
+                    self.linter_out += str(i) + ", " + info + ": " + line.lstrip() + "\n"
             i += 1
 
     def trailing_whitespace(self):
@@ -337,7 +337,7 @@ class VHDLint:
             chk_e1 = line.find(":", 0)
             chk_e2 = line.find("=>", 0)
             if chk != -1 and (chk_e1 == -1 and chk_e2 == -1):
-                print(str(i) + ", " + info + ": " + line.lstrip())
+                self.linter_out += str(i) + ", " + info + ": " + line.lstrip() + "\n"
             i += 1
 
     def check_comments(self):
@@ -347,11 +347,11 @@ class VHDLint:
         for line in self.lines:
             chk1 = line.lower().find("xxx", 0)
             if chk1 != -1:
-                print(str(i) + ", " + info + ": " + line.lstrip())
+                self.linter_out += str(i) + ", " + info + ": " + line.lstrip() + "\n"
             chk2 = line.lower().find("todo", 0)
             chk3 = line.lower().find("to do", 0)
             if chk2 != -1 or chk3 != -1:
-                print(str(i) + ", " + info + ": " + line.lstrip())
+                self.linter_out += str(i) + ", " + info + ": " + line.lstrip() + "\n"
             i += 1
 
     def find_reports(self):
@@ -361,7 +361,7 @@ class VHDLint:
         for line in self.lines:
             chk1 = line.lower().find("report", 0)
             if chk1 != -1:
-                print(str(i) + ", " + info + ": " + line.lstrip())
+                self.linter_out += str(i) + ", " + info + ": " + line.lstrip() + "\n"
             i += 1
 
     def check_semicolons(self):
@@ -371,7 +371,7 @@ class VHDLint:
         for line in self.lines:
             chk1 = line.lower().find(" ;", 0)
             if chk1 != -1:
-                print(str(i) + ", " + info + ": " + line.lstrip())
+                self.linter_out += str(i) + ", " + info + ": " + line.lstrip() + "\n"
             i += 1
 
     def tab2space(self):
@@ -436,15 +436,31 @@ class VHDLint:
         f.write(content)
         f.close()
 
+    def add_file_name(self, filename):
+        self.linter_out += "\n************ " + f_name + "\n"
+
+    def print2console(self, filename=None):
+        print(self.linter_out)
+
+    def print2file(self, output_file):
+
+        file_content = "VHDLint \n" + self.linter_out
+        f = open(self.dir + output_file, "w") # TODO
+        f.write(file_content)
+        f.close()
+
+
 
 if __name__ == "__main__":
 
-    BANNER = pyfiglet.figlet_format("VHDLint")
-    print("\n" + BANNER)
-    print("No config file found, using default configuration \n")
+    # Banner
+    print("\n" + pyfiglet.figlet_format("VHDLint"))
+    # colorful output in console, XXX not in file...
+    if platform.platform().find("Linux") == -1:
+        os.system('color')
+    print(colored("No config file found, using default configuration", cfg.COLOR_FILENAME))
 
     LNTR = VHDLint()
-
 
     FILES, FILE_DIRS = LNTR.get_files()
 
@@ -453,9 +469,7 @@ if __name__ == "__main__":
 
     for f_name in FILES:
 
-        if platform.platform().find("Linux") == -1:
-            os.system('color')
-        print(colored("************ " + f_name, cfg.COLOR_FILENAME))
+        LNTR.add_file_name(f_name)
 
         LNTR.get_content(f_name)
         LNTR.get_lines(f_name)
@@ -506,3 +520,11 @@ if __name__ == "__main__":
 
             # edit file and delete whitespaces
             LNTR.edit_file(f_name)
+
+    if cfg.PRINT:
+        if cfg.PRINT2CONSOLE:
+            LNTR.print2console()
+
+        if cfg.PRINT2FILE:
+            LNTR.print2file("VHDLint_out.txt")
+

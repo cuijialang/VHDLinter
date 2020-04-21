@@ -23,5 +23,8 @@ TAB2SPACE = True
 PRETTY_COMMENTING = True
 
 # PERSONAL SETTINGS
+PRINT = True
+PRINT2CONSOLE = True
+PRINT2FILE = True
 COLORS = ["yellow", "cyan", "magenta", "blue", "green"]
-COLOR_FILENAME = COLORS[0]
+COLOR_FILENAME = COLORS[1]

@@ -17,9 +17,9 @@ To launch the app, save the repository folder in the same directory like your VH
 
 ## Features
 VHDLint supports code check and formatting options for VHDL Design Files (.vhd).<br />
-The following naming and coding conventions are supported:
 
-### Code checking
+#### Code check
+Verification for the following naming and coding conventions is supported:
 ##### General
 - [x] VHDL file name should be *entity_name.vhd*
 - [x] Each line must contain only one VHDL statement
@@ -49,8 +49,8 @@ The following naming and coding conventions are supported:
 - [X] Self-defined types (except for FSM types) should be in libraries
 - [ ] Self-defined types should be commented
 
-### Formatting
-##### Correcting
+#### Formatting
+Automatic correcting of the following flaws is possible:
 - [x] Removing bad-whitespaces
 - [x] Tab2Space functionality
 - [x] Deletion of trailing whitespace

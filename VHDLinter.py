@@ -5,7 +5,7 @@ import config as cfg
 from CodeCheck import *
 from CodeFormatting import *
 
-class VHDLint:
+class VHDLinter:
 
     def __init__(self):
 
@@ -37,20 +37,20 @@ class VHDLint:
 
     def print_banner(self):
 
-        print("\n" + pyfiglet.figlet_format("VHDLint"))
+        print("\n" + pyfiglet.figlet_format("VHDLinter"))
         print("No config file found, using default configuration \n")
 
 
 if __name__ == "__main__":
 
-    VHDLint = VHDLint()
-    Files = VHDLint.get_files()
+    VHDLinter = VHDLinter()
+    Files = VHDLinter.get_files()
 
     if cfg.BACKUP:
-        VHDLint.make_backup_copies()
+        VHDLinter.make_backup_copies()
 
     if cfg.PRINT and cfg.PRINT2CONSOLE:
-        VHDLint.print_banner()
+        VHDLinter.print_banner()
 
     for f_name in Files:
 

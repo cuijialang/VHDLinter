@@ -1,4 +1,4 @@
-# VHDLint
+# VHDLinter
 
 ## Table of contents
 * [General info](#general-info)
@@ -10,13 +10,13 @@
 * [Source](#source)
 
 ## General info
-VHDLint is a small linter for the VHDL language, which looks for programming errors and helps enforcing a coding standard.
+VHDLinter is a small linter for the VHDL language, which looks for programming errors and helps enforcing a coding standard.
 
 ## How to Use
-To launch the app, save the repository folder in the same directory like your VHDL design files and open the *VHDLint.py* script via the console.
+To launch the app, save the repository folder in the same directory like your VHDL design files and open the *VHDLinter.py* script via the console.
 
 ## Features
-VHDLint supports code check and formatting options for VHDL Design Files (.vhd).<br />
+VHDLinter supports code check and formatting options for VHDL Design Files (.vhd).<br />
 
 #### Code check
 Verification of the following naming and coding conventions is supported:
@@ -61,5 +61,4 @@ Automatic correcting of the following flaws is possible:
 <img src="images/preview.png" width="500">
 
 ## Source
-The functionality is based on the idea of having something like *Pylint* for VHDL; *VHDLint*.
 The supported checks and formatting options are based on [**VHDL coding style**](http://www.tkt.cs.tut.fi/kurssit/1212/S08/Harjoitukset/vhdl_coding.html) by Tampere University of Technology and [**VHDL Style Guide**](https://www.ims-chips.de/content/pdftext/VHDL_Style_Guide.pdf) by IMS CHIPS.

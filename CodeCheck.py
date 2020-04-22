@@ -337,8 +337,10 @@ class CodeCheck(LinterUtil):
         print(self.linter_out)
 
     def print2file(self, f_out_dir, f_out_name):
-        file_content = "VHDLint \n" + self.linter_out
+    
+        # Check if file exists and is not empty TODO
+        file_content = "VHDLinter \n" + self.linter_out
         f_out_path = f_out_dir + f_out_name
-        f_cc = open(f_out_path, "a+") #TODO
+        f_cc = open(f_out_path, "a")
         f_cc.write(file_content)
         f_cc.close()

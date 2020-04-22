@@ -1,4 +1,4 @@
-# VHDLint Config
+# VHDLinter Config
 
 #DIRECTORY = "../"
 DIRECTORY = "../monitoring/"

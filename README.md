@@ -19,9 +19,9 @@ To launch the app, save the repository folder in the same directory like your VH
 VHDLint supports code check and formatting options for VHDL Design Files (.vhd).<br />
 
 #### Code check
-Verification for the following naming and coding conventions is supported:
+Verification of the following naming and coding conventions is supported:
 ##### General
-- [x] VHDL file name should be *entity_name.vhd*
+- [x] VHDL file names are derived by their entity name
 - [x] Each line must contain only one VHDL statement
 - [x] Source code must not exceed 80 characters per line
 - [x] No TAB characters should be used for indentation
@@ -31,8 +31,7 @@ Verification for the following naming and coding conventions is supported:
 ##### Signals, Variables and Constants
 - [x] Signal and variable names must not exceed 24 characters
 - [x] Vector range should be *MSB downto LSB*
-- [x] Constants should be written in upper-case
-- [ ] Unused variables or signals
+- [x] Constant names should be upper-case
 
 ##### Entities
 - [x] Ports shoud be ordered by their type (in, out)
@@ -56,6 +55,7 @@ Automatic correcting of the following flaws is possible:
 - [x] Deletion of trailing whitespace
 - [x] Create backup files
 - [x] Create output file
+- [ ] Deletion of unused signals or variables
 
 ## Preview
 <img src="images/preview.png" width="500">

@@ -1,6 +1,8 @@
 /testing*
 /__pychache__*
+/gui*
 /.bak*
 *.pyc
 *.vhd
 ToDo.txt
+VHDLint_out.txt

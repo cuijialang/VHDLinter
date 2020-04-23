@@ -8,6 +8,7 @@
     * [Formatting](#formatting)
 * [Preview](#preview)
 * [Source](#source)
+* [License](#license)
 
 ## General info
 VHDLinter is a smart linter for the VHDL language, which looks for programming errors and helps enforcing a coding standard.
@@ -60,3 +61,6 @@ Automatic correction of the following flaws is possible:
 
 ## Source
 The supported checks and formatting options are based on [**VHDL coding style**](http://www.tkt.cs.tut.fi/kurssit/1212/S08/Harjoitukset/vhdl_coding.html) by Tampere University of Technology and [**VHDL Style Guide**](https://www.ims-chips.de/content/pdftext/VHDL_Style_Guide.pdf) by IMS CHIPS.
+
+## License
+Licensed under the [GNU GPLv3 License](LICENSE).

@@ -5,4 +5,4 @@
 *.pyc
 *.vhd
 ToDo.txt
-VHDLint_out.txt
+VHDLinter_out.txt

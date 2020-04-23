@@ -22,7 +22,7 @@ PRINT = True
 PRINT2CONSOLE = True
 
 PRINT2FILE = True
-FILE_OUT_NAME = "VHDLint_out.txt"
+FILE_OUT_NAME = "VHDLinter_out.txt"
 FILE_OUT_DIR = "./"
 
 COLORS = ["yellow", "cyan", "magenta", "blue", "green"]

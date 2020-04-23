@@ -14,7 +14,7 @@ class CodeCheck(LinterUtil):
 
     def check_file_name(self):
 
-        info = "Bad file or entity name (entity_name.vhd)"
+        info = "Rename file or entity (entity_name.vhd)"
         i = 1
         entity_keys = ["entity ", " is"]
         for line in self.lines:
@@ -63,7 +63,7 @@ class CodeCheck(LinterUtil):
         for line in self.lines:
             chk1 = line.lower().find("\t", 0)
             if chk1 != -1:
-                self.linter_out += str(i) + ", " + info + ": " + line.lstrip() + "\n"
+                self.linter_out += str(i) + ", " + info + ": " + line.strip() + "\n"
             i += 1
 
     def check_indentation(self):
@@ -89,7 +89,7 @@ class CodeCheck(LinterUtil):
                         upper_case = False
 
                 if not upper_case:
-                    self.linter_out += str(i) + ", " + info + ": constant" + constant_name + "\n"
+                    self.linter_out += str(i) + ", " + info + ": " + constant_name + "\n"
             i += 1
 
 
@@ -132,7 +132,7 @@ class CodeCheck(LinterUtil):
             chk_comment = line.find("--")
             if name_bgn != -1 and (name_bgn < chk_comment or chk_comment == -1):
                 l_ss = line[name_bgn+len("signal"):].strip()
-                signal_name = l_ss[:l_ss.find(" ")]
+                signal_name = l_ss[:l_ss.find(" ")-1]
                 if len(signal_name) > max_name_length:
                     self.linter_out += str(i) + ", " + info + ": " + signal_name + "\n"
             i += 1
@@ -159,7 +159,7 @@ class CodeCheck(LinterUtil):
         for line in self.lines:
             if all(k in line for k in pack_keys):
                 if line.lower().find("_pkg ") == -1:
-                    self.linter_out += str(i) + ", " + info + ": " + line.lstrip() + "\n"
+                    self.linter_out += str(i) + ", " + info + ": " + line.strip() + "\n"
             i += 1
 
     def check_arc_name(self):
@@ -169,8 +169,8 @@ class CodeCheck(LinterUtil):
         arch_keys = ["architecture ", " of ", " is"]
         for line in self.lines:
             if all(k in line for k in arch_keys):
-                if line.lower().find("_arc") == -1:
-                    self.linter_out += str(i) + ", " + info + ": " + line.lstrip() + "\n"
+                if line.lower().find("_arc ") == -1:
+                    self.linter_out += str(i) + ", " + info + ": " + line.strip() + "\n"
             i += 1
 
     def check_port_order(self):
@@ -253,12 +253,12 @@ class CodeCheck(LinterUtil):
                 chk_downto = line.lower().find(" downto ")
 
                 if chk_downto == -1 and chk_to != -1:
-                    self.linter_out += str(i) + ", " + info + ": " + line.lstrip() + "\n"
+                    self.linter_out += str(i) + ", " + info + ": " + line.strip() + "\n"
             i += 1
 
     def check_user_def_types(self):
 
-        info = "Self-defined types must be in package (_pkg) file"
+        info = "Self-defined type not in library file"
         i = 1
 
         type_keys = ["type ", " is"]
@@ -266,7 +266,7 @@ class CodeCheck(LinterUtil):
 
             if all(k in line for k in type_keys):
                 if self.f_name.find("_pkg") == -1 and line.lower().find("fsm") == -1:
-                    self.linter_out += str(i) + ", " + info + ": " + line.lstrip() + "\n"
+                    self.linter_out += str(i) + ", " + info + ": " + line.strip() + "\n"
             i += 1
 
     def check_time_units(self):
@@ -279,7 +279,7 @@ class CodeCheck(LinterUtil):
                 chk2 = line.lower().find(unit + " ", 0)
                 chk_correct = line.lower().find(" " + unit, 0)
                 if (chk1 != -1 or chk2 != -1) and chk_correct == -1:
-                    self.linter_out += str(i) + ", " + info + ": " + line.lstrip() + "\n"
+                    self.linter_out += str(i) + ", " + info + ": " + line.strip() + "\n"
             i += 1
 
     def trailing_whitespace(self):
@@ -292,21 +292,20 @@ class CodeCheck(LinterUtil):
             chk_e1 = line.find(":", 0)
             chk_e2 = line.find("=>", 0)
             if chk != -1 and (chk_e1 == -1 and chk_e2 == -1):
-                self.linter_out += str(i) + ", " + info + ": " + line.lstrip() + "\n"
+                self.linter_out += str(i) + ", " + info + ": " + line.strip() + "\n"
             i += 1
 
     def check_comments(self):
 
         info = "Ugly comment"
+        key = ["xxx", "to do", "todo", "delete", "check", "?"]
         i = 1
         for line in self.lines:
-            chk1 = line.lower().find("xxx", 0)
-            if chk1 != -1:
-                self.linter_out += str(i) + ", " + info + ": " + line.lstrip() + "\n"
-            chk2 = line.lower().find("todo", 0)
-            chk3 = line.lower().find("to do", 0)
-            if chk2 != -1 or chk3 != -1:
-                self.linter_out += str(i) + ", " + info + ": " + line.lstrip() + "\n"
+            chk = line.find("--")
+            if chk != -1:
+                comment = line[chk+2:].strip()
+                if any(k in comment.lower() for k in key):
+                    self.linter_out += str(i) + ", " + info + ": " + comment + "\n"
             i += 1
 
     def find_reports(self):
@@ -316,7 +315,7 @@ class CodeCheck(LinterUtil):
         for line in self.lines:
             chk1 = line.lower().find("report", 0)
             if chk1 != -1:
-                self.linter_out += str(i) + ", " + info + ": " + line.lstrip() + "\n"
+                self.linter_out += str(i) + ", " + info + ": " + line.strip() + "\n"
             i += 1
 
     def check_semicolons(self):
@@ -326,7 +325,7 @@ class CodeCheck(LinterUtil):
         for line in self.lines:
             chk1 = line.lower().find(" ;", 0)
             if chk1 != -1:
-                self.linter_out += str(i) + ", " + info + ": " + line.lstrip() + "\n"
+                self.linter_out += str(i) + ", " + info + ": " + line.strip() + "\n"
             i += 1
 
     def print2console(self, color):
@@ -337,9 +336,8 @@ class CodeCheck(LinterUtil):
         print(self.linter_out)
 
     def print2file(self, f_out_dir, f_out_name):
-    
-        # Check if file exists and is not empty TODO
-        file_content = "VHDLinter \n" + self.linter_out
+
+        file_content = "\n*************** " + self.f_name + "\n" + self.linter_out
         f_out_path = f_out_dir + f_out_name
         f_cc = open(f_out_path, "a")
         f_cc.write(file_content)

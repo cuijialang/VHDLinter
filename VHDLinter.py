@@ -3,7 +3,7 @@ import shutil
 import pyfiglet
 import config as cfg
 from CodeCheck import *
-from CodeFormatting import *
+from CodeFormating import *
 
 class VHDLinter:
 
@@ -37,8 +37,21 @@ class VHDLinter:
 
     def print_banner(self):
 
-        print("\n" + pyfiglet.figlet_format("VHDLinter"))
-        print("No config file found, using default configuration \n")
+        #print("\n" + pyfiglet.figlet_format("VHDLinter"))
+        print("No config file found, using default configuration\n")
+
+    def make_output_file(self, f_out_dir, f_out_name):
+
+        try:
+            os.mkdir(f_out_dir)
+        except:
+            pass
+        file_content = "VHDLinter\n"
+        file_content += "No config file found, using default configuration\n"
+        f_out_path = f_out_dir + f_out_name
+        f_cc = open(f_out_path, "w")
+        f_cc.write(file_content)
+        f_cc.close()
 
 
 if __name__ == "__main__":
@@ -52,12 +65,16 @@ if __name__ == "__main__":
     if cfg.PRINT and cfg.PRINT2CONSOLE:
         VHDLinter.print_banner()
 
+    if cfg.PRINT and cfg.PRINT2FILE:
+        # create or empty output file
+        VHDLinter.make_output_file(cfg.FILE_OUT_DIR, cfg.FILE_OUT_NAME)
+
     for f_name in Files:
 
         CC = CodeCheck(f_name)
-        CF = CodeFormatting(f_name)
+        CF = CodeFormating(f_name)
 
-        if cfg.FORMATTING:
+        if cfg.FORMATING:
 
             if cfg.RM_BAD_WHITESPACES:
                 CF.rm_bad_whitespaces()
@@ -99,7 +116,7 @@ if __name__ == "__main__":
 
             # Others
             #CC.find_reports()
-            #CC.check_comments()
+            CC.check_comments()
             CC.check_semicolons()
             CC.check_time_units()
 

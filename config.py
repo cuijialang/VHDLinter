@@ -23,13 +23,13 @@ PRINT2CONSOLE = True
 
 PRINT2FILE = True
 FILE_OUT_NAME = "VHDLinter_out.txt"
-FILE_OUT_DIR = "./"
+FILE_OUT_DIR = "./testing/"
 
 COLORS = ["yellow", "cyan", "magenta", "blue", "green"]
-COLOR_FILENAME = COLORS[1]
+COLOR_FILENAME = COLORS[0]
 
 # Caution: File modifications can't be undone!
-FORMATTING = True
+FORMATING = True
 RM_BAD_WHITESPACES = True
 TAB2SPACE = True
 PRETTY_COMMENTS = True

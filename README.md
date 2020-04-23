@@ -4,20 +4,18 @@
 * [General info](#general-info)
 * [How to Use](#setup)
 * [Features](#features)
-    * [Code checking](#checking)
-    * [Formatting](#formatting)
 * [Preview](#preview)
 * [Source](#source)
 * [License](#license)
 
 ## General info
-VHDLinter is a smart linter for the VHDL language, which looks for programming errors and helps enforcing a coding standard.
+VHDLinter is a small linter for the VHDL language, which looks for programming errors and helps enforcing a coding standard.
 
 ## How to Use
 To launch the app, save the repository folder unter the same directory like your VHDL design files and open the *VHDLinter.py* script via the console.
 
 ## Features
-VHDLinter supports code check and formatting options for VHDL Design Files (.vhd).<br />
+VHDLinter offers code check and formating options for VHDL Design Files (.vhd).<br />
 
 #### Code check
 Verification of the following naming and coding conventions is supported:
@@ -49,10 +47,10 @@ Verification of the following naming and coding conventions is supported:
 - [X] Self-defined types (except for FSM types) should be in libraries
 - [ ] Self-defined types should be commented
 
-#### Formatting
+#### Formating
 Automatic correction of the following flaws is possible:
-- [x] Removal of trailing whitespace
-- [x] Removal of bad whitespaces
+- [x] Removal of bad whitespace
+- [x] Removal of trailing whitespaces
 - [x] Replacing tabs (Tab2Space)
 - [ ] Deletion of unused signals or variables
 
@@ -60,7 +58,7 @@ Automatic correction of the following flaws is possible:
 <img src="images/preview.png" width="500">
 
 ## Source
-The supported checks and formatting options are based on [**VHDL coding style**](http://www.tkt.cs.tut.fi/kurssit/1212/S08/Harjoitukset/vhdl_coding.html) by Tampere University of Technology and [**VHDL Style Guide**](https://www.ims-chips.de/content/pdftext/VHDL_Style_Guide.pdf) by IMS CHIPS.
+The supported checks and formating options are based on [**VHDL coding style**](http://www.tkt.cs.tut.fi/kurssit/1212/S08/Harjoitukset/vhdl_coding.html) by Tampere University of Technology and [**VHDL Style Guide**](https://www.ims-chips.de/content/pdftext/VHDL_Style_Guide.pdf) by IMS CHIPS.
 
 ## License
 Licensed under the [GNU GPLv3 License](LICENSE).

@@ -1,6 +1,6 @@
 from LinterUtil import *
 
-class CodeFormatting(LinterUtil):
+class CodeFormating(LinterUtil):
 
     def __init__(self, f_name):
 

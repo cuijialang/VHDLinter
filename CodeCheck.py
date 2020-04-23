@@ -4,9 +4,8 @@ from LinterUtil import *
 
 class CodeCheck(LinterUtil):
 
-    def __init__(self, f_name):
+    def __init__(self, f_dir, f_name):
 
-        f_dir = cfg.DIRECTORY
         LinterUtil.__init__(self, f_dir, f_name)
         self.linter_out = ""
         self.constants = []

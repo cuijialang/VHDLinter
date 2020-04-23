@@ -1,5 +1,3 @@
-import config as cfg
-
 class LinterUtil:
 
     def __init__(self, f_dir, f_name):

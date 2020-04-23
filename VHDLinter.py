@@ -1,7 +1,6 @@
 import os
+import yaml
 import shutil
-import pyfiglet
-import config as cfg
 from CodeCheck import *
 from CodeFormating import *
 
@@ -9,47 +8,44 @@ class VHDLinter:
 
     def __init__(self):
 
-        self.dir = cfg.DIRECTORY
-        self.bak_dir = cfg.BAK_DIRECTORY
         self.files = []
         self.file_dirs = []
 
-    def get_files(self, color):
+    def get_files(self, f_dir, color):
 
         try:
-            for f_name in os.listdir(self.dir):
+            for f_name in os.listdir(f_dir):
                 if f_name.endswith(".vhd"):
                     self.files.append(f_name)
-                    self.file_dirs.append(self.dir+f_name)
+                    self.file_dirs.append(f_dir+f_name)
 
             if len(self.files) == 0:
                 if platform.platform().find("Linux") == -1:
                     os.system('color')
                 print(colored("No VHDL files found!", color))
         except:
-            print(colored("Directory " + self.dir + " not found!", color))
+            print(colored("Directory " + f_dir + " not found!", color))
         return self.files
 
-    def make_backup_copies(self):
+    def make_backup_copies(self, bak_dir):
 
         try:
-            os.mkdir(self.bak_dir)
+            os.mkdir(bak_dir)
         except:
             pass
 
         i = 0
         for original in self.file_dirs:
-            target = self.bak_dir + self.files[i]
+            target = bak_dir + self.files[i]
             shutil.copyfile(original, target)
             i += 1
 
-    def print_banner(self, color):
+    def print_banner(self, f_dir, color):
 
-        #print("\n" + pyfiglet.figlet_format("VHDLinter"))
         if platform.platform().find("Linux") == -1:
             os.system('color')
         print(colored("No config file found, using default configuration", color))
-        print("Checking VHDL files in " + self.dir + "\n")
+        print("Checking VHDL files in " + f_dir + "\n")
 
 
     def make_output_file(self, f_out_dir, f_out_name):
@@ -68,51 +64,59 @@ class VHDLinter:
 
 if __name__ == "__main__":
 
+    # Configurations
+    with open("config.yml", "r") as stream:
+        try:
+            cfg = yaml.safe_load(stream)
+            f_dir = cfg["directory"]
+        except yaml.YAMLError as exc:
+            print(exc)
+
+    # Get Files
     VHDLinter = VHDLinter()
+    VHDLinter.print_banner(f_dir, cfg["colors"]["warning"])
+    Files = VHDLinter.get_files(f_dir, cfg["colors"]["warning"])
 
-    VHDLinter.print_banner(cfg.COLOR_WARNING)
-    Files = VHDLinter.get_files(cfg.COLOR_WARNING)
 
-    if cfg.BACKUP:
-        VHDLinter.make_backup_copies()
+    if cfg["BACKUP"]:
+        VHDLinter.make_backup_copies(cfg["bak_directory"])
 
-    if cfg.PRINT and cfg.PRINT2FILE:
-        # create or empty output file
-        VHDLinter.make_output_file(cfg.FILE_OUT_DIR, cfg.FILE_OUT_NAME)
+    if cfg["print2file"]:
+        VHDLinter.make_output_file(cfg["file_out_dir"], cfg["file_out_name"])
 
+    # Looping through files
     for f_name in Files:
 
-        CC = CodeCheck(f_name)
-        CF = CodeFormating(f_name)
+        CC = CodeCheck(f_dir, f_name)
+        CF = CodeFormating(f_dir, f_name)
 
-        if cfg.FORMATING:
+        if cfg["FORMATING"]:
 
-            if cfg.RM_BAD_WHITESPACES:
+            if cfg["rm_bad_whitespaces"]:
                 CF.rm_bad_whitespaces()
-            if cfg.TAB2SPACE:
-                CF.tab2space(cfg.SPACES_PER_TAB)
-            if cfg.PRETTY_COMMENTS:
+            if cfg["tab2space"]:
+                CF.tab2space(cfg["spaces_per_tab"])
+            if cfg["pretty_comments"]:
                 CF.make_pretty_comment()
+            CF.edit_file()
 
-            # edit file and delete whitespaces
-            CF.edit_file(cfg.DIRECTORY, f_name)
 
-        if cfg.FILE_NAME_CHECK:
-            CC.check_file_name()
+        if cfg["CODE_CHECK"]:
 
-        if cfg.CODE_CHECK:
+            if cfg["file_name_check"]:
+                CC.check_file_name()
 
             # General
             CC.check_statements_per_line()
-            CC.check_line_length(cfg.MAX_LINE_LENGTH)
+            CC.check_line_length(cfg["max_line_length"])
             CC.check_tabs()
             #CC.check_indenation()
             CC.check_constant_names()
             CC.check_lower_case()
 
             # Signals, Variables and Constants
-            CC.check_signal_names(cfg.MAX_SIGNAL_NAME_LENGTH)
-            CC.check_var_names(cfg.MAX_VARIABLE_NAME_LENGTH)
+            CC.check_signal_names(cfg["max_signal_name_length"])
+            CC.check_var_names(cfg["max_var_name_length"])
             CC.check_msb_to_lsb()
 
             # Entities
@@ -134,9 +138,8 @@ if __name__ == "__main__":
             CC.check_spaces_in_ports()
             CC.trailing_whitespace()
 
-            if cfg.PRINT:
-                if cfg.PRINT2CONSOLE:
-                    CC.print2console(cfg.COLOR_FILENAME)
+            if cfg["print2console"]:
+                CC.print2console(cfg['colors']['filename'])
 
-                if cfg.PRINT2FILE:
-                    CC.print2file(cfg.FILE_OUT_DIR, cfg.FILE_OUT_NAME)
+            if cfg["print2file"]:
+                CC.print2file(cfg["file_out_dir"], cfg["file_out_name"])

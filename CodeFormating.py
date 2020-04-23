@@ -2,11 +2,11 @@ from LinterUtil import *
 
 class CodeFormating(LinterUtil):
 
-    def __init__(self, f_name):
+    def __init__(self, f_dir, f_name):
 
+        self.f_dir = f_dir
         self.f_name = f_name
 
-        f_dir = cfg.DIRECTORY
         LinterUtil.__init__(self, f_dir, f_name)
 
 
@@ -73,13 +73,13 @@ class CodeFormating(LinterUtil):
             self.lines[i] = line
             i += 1
 
-    def edit_file(self, f_dir, f_name):
+    def edit_file(self):
 
         content = ""
         for line in self.lines:
             content += line.rstrip()+"\n"
 
-        f_out_path = f_dir + f_name
+        f_out_path =  self.f_dir + self.f_name
         f_cf = open(f_out_path, "w")
         f_cf.write(content)
         f_cf.close()

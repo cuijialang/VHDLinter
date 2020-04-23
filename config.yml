@@ -1,0 +1,34 @@
+# VHDLinter Config
+
+# directory: "../"
+directory: "../my_VHDL_project/"
+
+CODE_CHECK: True
+FORMATING: False
+BACKUP: True
+
+# Code check settings
+file_name_check: True
+print2console: True
+print2file: True
+file_out_name: "VHDLinter_out.txt"
+file_out_dir: "./testing/"
+
+# Formating settings
+rm_bad_whitespaces: False
+tab2space: False
+pretty_comments: False
+spaces_per_tab: 4
+
+# Backup settings
+bak_directory: "./.bak/"
+
+# More settings
+max_line_length: 80
+max_signal_name_length: 24
+max_var_name_length: 24
+
+colors:
+    c: ["yellow", "cyan", "magenta", "blue", "green", "white"]
+    filename: "yellow"
+    warning: "magenta"

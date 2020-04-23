@@ -125,7 +125,7 @@ class CodeCheck(LinterUtil):
 
     def check_signal_names(self, max_name_length):
 
-        info = "Bad naming style for signal"
+        info = "Signal name too long"
         i = 1
         for line in self.lines:
             name_bgn = line.lower().find("signal")
@@ -134,12 +134,13 @@ class CodeCheck(LinterUtil):
                 l_ss = line[name_bgn+len("signal"):].strip()
                 signal_name = l_ss[:l_ss.find(" ")-1]
                 if len(signal_name) > max_name_length:
-                    self.linter_out += str(i) + ", " + info + ": " + signal_name + "\n"
+                    hint = " ("+str(len(signal_name)) + "/" + str(max_name_length)+")"
+                    self.linter_out += str(i) + ", " + info + hint + ": " + signal_name + "\n"
             i += 1
 
     def check_var_names(self, max_name_length):
 
-        info = "Bad naming style for variable"
+        info = "Variable name too long"
         i = 1
         for line in self.lines:
             name_bgn = line.lower().find("variable")
@@ -148,7 +149,8 @@ class CodeCheck(LinterUtil):
                 l_ss = line[name_bgn+len("variable"):].strip()
                 var_name = l_ss[:l_ss.find(" ")]
                 if len(var_name) > max_name_length:
-                    self.linter_out += str(i) + ", " + info + ": " + var_name + "\n"
+                    hint = " ("+str(len(var_name)) + "/" + str(max_name_length)+")"
+                    self.linter_out += str(i) + ", " + info + hint +": " + var_name + "\n"
             i += 1
 
     def check_pkg_name(self):
@@ -271,14 +273,13 @@ class CodeCheck(LinterUtil):
 
     def check_time_units(self):
 
-        info = "Add space before time unit!"
+        info = "Missing space before time unit"
         i = 1
+        time_keys = ["ns;", "ms;", "ps"]
         for line in self.lines:
-            for unit in ["ns", "ms", "ps"]:
-                chk1 = line.lower().find(unit + ";", 0)
-                chk2 = line.lower().find(unit + " ", 0)
-                chk_correct = line.lower().find(" " + unit, 0)
-                if (chk1 != -1 or chk2 != -1) and chk_correct == -1:
+            for key in time_keys:
+                chk = line.lower().find(key, 0)
+                if chk != -1 and line[chk-1].isnumeric() and not line[chk+len(key)-1].isalpha():
                     self.linter_out += str(i) + ", " + info + ": " + line.strip() + "\n"
             i += 1
 

@@ -1,7 +1,7 @@
 # VHDLinter Config
 
 #DIRECTORY = "../"
-DIRECTORY = "../monitoring/"
+DIRECTORY = "../my_VHDL_project/"
 
 MAX_LINE_LENGTH = 80
 MAX_SIGNAL_NAME_LENGTH = 24
@@ -25,11 +25,12 @@ PRINT2FILE = True
 FILE_OUT_NAME = "VHDLinter_out.txt"
 FILE_OUT_DIR = "./testing/"
 
-COLORS = ["yellow", "cyan", "magenta", "blue", "green"]
+COLORS = ["yellow", "cyan", "magenta", "blue", "green", "white"]
 COLOR_FILENAME = COLORS[0]
+COLOR_WARNING = COLORS[0]
 
 # Caution: File modifications can't be undone!
-FORMATING = True
-RM_BAD_WHITESPACES = True
-TAB2SPACE = True
-PRETTY_COMMENTS = True
+FORMATING = False
+RM_BAD_WHITESPACES = False
+TAB2SPACE = False
+PRETTY_COMMENTS = False

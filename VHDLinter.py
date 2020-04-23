@@ -14,12 +14,20 @@ class VHDLinter:
         self.files = []
         self.file_dirs = []
 
-    def get_files(self):
+    def get_files(self, color):
 
-        for f_name in os.listdir(self.dir):
-            if f_name.endswith(".vhd"):
-                self.files.append(f_name)
-                self.file_dirs.append(self.dir+f_name)
+        try:
+            for f_name in os.listdir(self.dir):
+                if f_name.endswith(".vhd"):
+                    self.files.append(f_name)
+                    self.file_dirs.append(self.dir+f_name)
+
+            if len(self.files) == 0:
+                if platform.platform().find("Linux") == -1:
+                    os.system('color')
+                print(colored("No VHDL files found!", color))
+        except:
+            print(colored("Directory " + self.dir + " not found!", color))
         return self.files
 
     def make_backup_copies(self):
@@ -35,10 +43,14 @@ class VHDLinter:
             shutil.copyfile(original, target)
             i += 1
 
-    def print_banner(self):
+    def print_banner(self, color):
 
         #print("\n" + pyfiglet.figlet_format("VHDLinter"))
-        print("No config file found, using default configuration\n")
+        if platform.platform().find("Linux") == -1:
+            os.system('color')
+        print(colored("No config file found, using default configuration", color))
+        print("Checking VHDL files in " + self.dir + "\n")
+
 
     def make_output_file(self, f_out_dir, f_out_name):
 
@@ -49,7 +61,7 @@ class VHDLinter:
         file_content = "VHDLinter\n"
         file_content += "No config file found, using default configuration\n"
         f_out_path = f_out_dir + f_out_name
-        f_cc = open(f_out_path, "w")
+        f_cc = open(f_out_path, "w+")
         f_cc.write(file_content)
         f_cc.close()
 
@@ -57,13 +69,12 @@ class VHDLinter:
 if __name__ == "__main__":
 
     VHDLinter = VHDLinter()
-    Files = VHDLinter.get_files()
+
+    VHDLinter.print_banner(cfg.COLOR_WARNING)
+    Files = VHDLinter.get_files(cfg.COLOR_WARNING)
 
     if cfg.BACKUP:
         VHDLinter.make_backup_copies()
-
-    if cfg.PRINT and cfg.PRINT2CONSOLE:
-        VHDLinter.print_banner()
 
     if cfg.PRINT and cfg.PRINT2FILE:
         # create or empty output file

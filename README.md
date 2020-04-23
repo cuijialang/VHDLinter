@@ -10,10 +10,10 @@
 * [Source](#source)
 
 ## General info
-VHDLinter is a small linter for the VHDL language, which looks for programming errors and helps enforcing a coding standard.
+VHDLinter is a smart linter for the VHDL language, which looks for programming errors and helps enforcing a coding standard.
 
 ## How to Use
-To launch the app, save the repository folder in the same directory like your VHDL design files and open the *VHDLinter.py* script via the console.
+To launch the app, save the repository folder unter the same directory like your VHDL design files and open the *VHDLinter.py* script via the console.
 
 ## Features
 VHDLinter supports code check and formatting options for VHDL Design Files (.vhd).<br />
@@ -24,8 +24,8 @@ Verification of the following naming and coding conventions is supported:
 - [x] VHDL file names are derived by their entity name
 - [x] Each line must contain only one VHDL statement
 - [x] Source code must not exceed 80 characters per line
-- [x] No TAB characters should be used for indentation
-- [ ] Line must be properly indented with 2 spaces per level of indentation
+- [x] No tab characters should be used for indentation
+- [ ] Lines must be properly indented with 2 spaces per level of indentation
 - [x] Source code should be lower case, except for constant declarations
 
 ##### Signals, Variables and Constants
@@ -49,12 +49,10 @@ Verification of the following naming and coding conventions is supported:
 - [ ] Self-defined types should be commented
 
 #### Formatting
-Automatic correcting of the following flaws is possible:
-- [x] Removing bad-whitespaces
-- [x] Tab2Space functionality
-- [x] Deletion of trailing whitespace
-- [x] Create backup files
-- [x] Create output file
+Automatic correction of the following flaws is possible:
+- [x] Removal of trailing whitespace
+- [x] Removal of bad whitespaces
+- [x] Replacing tabs (Tab2Space)
 - [ ] Deletion of unused signals or variables
 
 ## Preview

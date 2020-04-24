@@ -1,5 +1,4 @@
 from termcolor import colored
-from LinterUtil import *
 
 class CodeCheck():
 
@@ -10,6 +9,14 @@ class CodeCheck():
         self.linter_out = ""
         self.constants = []
 
+
+    def rm_comment(self, line):
+
+        # ignore comments
+        comment_bgn = line.find("--")
+        if comment_bgn != -1:
+            line = line[:comment_bgn].strip()
+        return line.strip()
 
     def check_file_name(self, lines):
 
@@ -31,14 +38,6 @@ class CodeCheck():
             hint = " (" + str(line_length) + "/" + str(max_line_length) + ")"
             self.linter_out += str(i) + ", " + info + hint + ": " + line.strip() + "\n"
 
-    def rm_comment(self, line):
-
-        # ignore comments
-        comment_bgn = line.find("--")
-        if comment_bgn != -1:
-            line = line[:comment_bgn].strip()
-        return line.strip()
-
     def check_statements_per_line(self, line, i):
         info = "Lines must not contain multiple statements"
         # ignore comments
@@ -55,10 +54,6 @@ class CodeCheck():
         chk = line.lower().find("\t", 0)
         if chk != -1:
             self.linter_out += str(i) + ", " + info + ": " + line.strip() + "\n"
-
-    def check_indentation(self, line, i):
-        print("Indentation check is not supported yet")
-        info = "Bad indentation"
 
     def check_constant_names(self, line, i):
 
@@ -277,9 +272,9 @@ class CodeCheck():
         if chk != -1:
             self.linter_out += str(i) + ", " + info + ": " + line.strip() + "\n"
 
-    def print2console(self, color):
+    def print2console(self, os, color):
 
-        if platform.platform().find("Linux") == -1:
+        if os == "win":
             os.system('color')
         print(colored("*************** " + self.f_name, color))
         print(self.linter_out)

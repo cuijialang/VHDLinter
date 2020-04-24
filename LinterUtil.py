@@ -1,15 +1,15 @@
 import os
-import platform
-import yaml
 import shutil
+import yaml
 from termcolor import colored
 
 class LinterUtil:
 
-    def __init__(self):
+    def __init__(self, os):
 
         self.content = ""
         self.lines = []
+        self.os = os
 
 
     def get_files(self, f_dir, color):
@@ -23,9 +23,9 @@ class LinterUtil:
             print(colored("Directory " + f_dir + " not found!", color))
 
         if len(self.files) == 0:
-            if platform.platform().find("Linux") == -1:
+            if self.os == "win":
                 os.system('color')
-            print(colored("No VHDL files found in " + f_dir , color))
+            print(colored("No VHDL files found in " + f_dir, color))
         else:
             print("Loading VHDL files in " + f_dir + "\n")
         return self.files

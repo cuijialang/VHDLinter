@@ -1,5 +1,3 @@
-from LinterUtil import *
-
 class CodeFormating():
 
     def __init__(self, f_dir, f_name, lines, content):
@@ -24,7 +22,7 @@ class CodeFormating():
         i = 0
         for line in self.lines:
             chk = line.lstrip().find("--")
-            if chk != -1 and chk != 0:
+            if chk > 0:
 
                 # remove multiple spaces at commentbegin
                 chk = line.find("--  ")
@@ -78,7 +76,7 @@ class CodeFormating():
         for line in self.lines:
             content += line.rstrip()+"\n"
 
-        f_out_path =  self.f_dir + self.f_name
+        f_out_path = self.f_dir + self.f_name
         f_cf = open(f_out_path, "w")
         f_cf.write(content)
         f_cf.close()

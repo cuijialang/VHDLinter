@@ -1,19 +1,30 @@
-from CodeCheck import *
-from CodeFormating import *
+import platform
+from LinterUtil import LinterUtil
+from CodeCheck import CodeCheck
+from CodeFormating import CodeFormating
 
 class VHDLinter(LinterUtil):
 
     def __init__(self):
 
-        super(VHDLinter, self).__init__()
         self.files = []
         self.file_dirs = []
+        self.check_platform()
+        super(VHDLinter, self).__init__(self.os)
+
+
+    def check_platform(self):
+
+        if platform.platform().find("Linux") != -1:
+            self.os = "linux"
+        else:
+            self.os = "win"
 
 
     def load_linter(self, config_name):
 
         self.load_config(config_name)
-        self.Files = self.get_files(self.f_dir, self.color_warning)
+        self.files = self.get_files(self.f_dir, self.color_warning)
 
         if self.BACKUP:
             self.make_backup_copies(self.bak_dir)
@@ -25,7 +36,7 @@ class VHDLinter(LinterUtil):
     def lint_files(self):
 
         # Looping through files and lines
-        for f_name in self.Files:
+        for f_name in self.files:
 
             lines = self.get_lines(self.f_dir, f_name)
             content = self.get_content(self.f_dir, f_name)
@@ -48,15 +59,13 @@ class VHDLinter(LinterUtil):
                 if self.f_name_check:
                     CC.check_file_name(lines)
 
-                for x in range(len(lines)):
-                    line = lines[x]
-                    i = x+1
+                for i in range(1, len(lines)):
+                    line = lines[i-1]
 
                     # General checks
                     CC.check_statements_per_line(line, i)
                     CC.check_line_length(line, i, self.max_line_length)
                     CC.check_tabs(line, i)
-                    #CC.check_indentation(line, i)
                     CC.check_constant_names(line, i)
                     CC.check_lower_case(line, i)
 
@@ -84,7 +93,7 @@ class VHDLinter(LinterUtil):
                 CC.check_spaces_in_ports(lines)
 
                 if self.print2console:
-                    CC.print2console(self.color_fname)
+                    CC.print2console(self.os, self.color_fname)
 
                 if self.print2file:
                     CC.print2file(self.f_out_dir, self.f_out_name)

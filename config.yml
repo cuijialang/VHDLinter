@@ -28,6 +28,10 @@ max_signal_name_length: 24
 max_var_name_length: 24
 
 colors:
-    c: ["yellow", "cyan", "magenta", "blue", "green", "white"]
-    filename: "yellow"
-    warning: "magenta"
+    # "yellow", "cyan", "magenta", "blue", "green", "white"
+    filename: "cyan"
+    warning: "red"
+
+# "123": Linter output is ordered by lines
+# "132": Linter output is ordered by error types #TODO
+linter_out_order: "123"

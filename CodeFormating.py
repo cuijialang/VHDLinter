@@ -1,14 +1,13 @@
 from LinterUtil import *
 
-class CodeFormating(LinterUtil):
+class CodeFormating():
 
-    def __init__(self, f_dir, f_name):
+    def __init__(self, f_dir, f_name, lines, content):
 
         self.f_dir = f_dir
         self.f_name = f_name
-
-        LinterUtil.__init__(self, f_dir, f_name)
-
+        self.lines = lines
+        self.content = content
 
     def tab2space(self, spaces_per_tab):
 

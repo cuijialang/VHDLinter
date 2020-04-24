@@ -1,6 +1,5 @@
 # VHDLinter Config
 
-# directory: "../"
 directory: "../my_VHDL_project/"
 
 CODE_CHECK: True

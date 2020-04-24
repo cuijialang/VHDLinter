@@ -305,7 +305,7 @@ class CodeCheck(LinterUtil):
             if chk != -1:
                 comment = line[chk+2:].strip()
                 if any(k in comment.lower() for k in key):
-                    self.linter_out += str(i) + ", " + info + ": " + comment + "\n"
+                    self.linter_out += str(i) + ", " + info + ": -- "+ comment + "\n"
             i += 1
 
     def find_reports(self):

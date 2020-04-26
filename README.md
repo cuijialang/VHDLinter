@@ -44,7 +44,7 @@ Automatic correction of the following flaws is possible:
 - [ ] Deletion of unused signals or variables
 
 ## Preview
-<img src="images/preview.png" width="500">
+<img src="images/preview.png" width="600">
 
 ## Source
 The supported checks and formating options are based on [**VHDL coding style**](http://www.tkt.cs.tut.fi/kurssit/1212/S08/Harjoitukset/vhdl_coding.html) by Tampere University of Technology and [**VHDL Style Guide**](https://www.ims-chips.de/content/pdftext/VHDL_Style_Guide.pdf) by IMS CHIPS.

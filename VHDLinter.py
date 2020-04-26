@@ -26,7 +26,7 @@ class VHDLinter(LinterUtil):
         self.load_config(config_name)
         self.files = self.get_files(self.f_dir, self.color_warning)
 
-        if self.BACKUP:
+        if self.backup:
             self.make_backup_copies(self.bak_dir)
 
         if self.print2file:
@@ -41,66 +41,66 @@ class VHDLinter(LinterUtil):
             lines = self.get_lines(self.f_dir, f_name)
             content = self.get_content(self.f_dir, f_name)
 
-            CC = CodeCheck(self.f_dir, f_name)
-            CF = CodeFormating(self.f_dir, f_name, lines, content)
+            cc = CodeCheck(self.f_dir, f_name)
+            cf = CodeFormating(self.f_dir, f_name, lines, content)
 
-            if self.FORMATING:
+            if self.formating:
                 if self.rm_bad_ws:
-                    CF.rm_bad_whitespaces()
+                    cf.rm_bad_whitespaces()
                 if self.tab2space:
-                    CF.tab2space(self.spaces_per_tab)
+                    cf.tab2space(self.spaces_per_tab)
                 if self.pretty_comments:
-                    CF.make_pretty_comment()
-                CF.edit_file()
+                    cf.make_pretty_comment()
+                cf.edit_file()
 
 
-            if self.CODE_CHECK:
+            if self.code_check:
 
                 if self.f_name_check:
-                    CC.check_file_name(lines)
+                    cc.check_file_name(lines)
 
-                for i in range(1, len(lines)):
-                    line = lines[i-1]
+                for j, line in enumerate(lines):
+                    i = j+1
 
                     # General checks
-                    CC.check_statements_per_line(line, i)
-                    CC.check_line_length(line, i, self.max_line_length)
-                    CC.check_tabs(line, i)
-                    CC.check_constant_names(line, i)
-                    CC.check_lower_case(line, i)
+                    cc.check_statements_per_line(line, i)
+                    cc.check_line_length(line, i, self.max_line_length)
+                    cc.check_tabs(line, i)
+                    cc.check_constant_names(line, i)
+                    cc.check_lower_case(line, i)
 
                     # Signals, Variables and Constants
-                    CC.check_signal_names(line, i, self.max_signal_name_length)
-                    CC.check_var_names(line, i, self.max_var_name_length)
-                    CC.check_msb_to_lsb(line, i)
+                    cc.check_signal_names(line, i, self.max_signal_name_length)
+                    cc.check_var_names(line, i, self.max_var_name_length)
+                    cc.check_msb_to_lsb(line, i)
 
                     # Architectures
-                    CC.check_arc_name(line, i)
+                    cc.check_arc_name(line, i)
 
                     # Packages
-                    CC.check_pkg_name(line, i)
-                    CC.check_user_def_types(line, i)
+                    cc.check_pkg_name(line, i)
+                    cc.check_user_def_types(line, i)
 
                     # Others
-                    #CC.find_reports(line, i)
-                    CC.check_comments(line, i)
-                    CC.check_semicolons(line, i)
-                    CC.check_time_units(line, i)
-                    CC.trailing_whitespace(line, i)
+                    #cc.find_reports(line, i)
+                    cc.check_comments(line, i)
+                    cc.check_semicolons(line, i)
+                    cc.check_time_units(line, i)
+                    cc.trailing_whitespace(line, i)
 
                 # Entities
-                CC.check_port_order(lines)
-                CC.check_spaces_in_ports(lines)
+                cc.check_port_order(lines)
+                cc.check_spaces_in_ports(lines)
 
                 if self.print2console:
-                    CC.print2console(self.os, self.color_fname)
+                    cc.print2console(self.os, self.color_fname)
 
                 if self.print2file:
-                    CC.print2file(self.f_out_dir, self.f_out_name)
+                    cc.print2file(self.f_out_dir, self.f_out_name)
 
 
 if __name__ == "__main__":
 
-    VHDLinter = VHDLinter()
-    VHDLinter.load_linter("config.yml")
-    VHDLinter.lint_files()
+    LINTER = VHDLinter()
+    LINTER.load_linter("config.yml")
+    LINTER.lint_files()

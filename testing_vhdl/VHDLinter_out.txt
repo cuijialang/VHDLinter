@@ -1,0 +1,25 @@
+VHDLinter
+
+*************** counter.vhd
+23, Ugly comment: -- TODO
+48, Lines must not contain multiple statements: q0 <= n4; q1 <= n9;
+
+*************** and2.vhd
+6, Bad naming style for architecture (_arc): architecture behav of and2 is
+8, Tab found (\t): y <= a and b;
+
+*************** my_entity.vhd
+4, Vector range should be MSB to LSB: reg    : in std_logic_vector(0 to 7);
+10, Self-defined type not in library file: subtype type_value is integer range 0 to 255;
+12, Line too long (84/80): signal internal_data_out_signal11 : std_logic vector(7 downto 0) := ”00000000”;
+12, Signal name too long (26/24): internal_data_out_signal11
+34, Remove space before semicolon: end if ;
+4, Wrong port order: reg    : in std_logic_vector(0 to 7);
+5, Wrong port order: data_in  : in bit
+
+*************** inverter.vhd
+1, Consider renaming file (entity.vhd) or entity : entity inv in inverter.vhd
+1, Upper case only in constant names or comments: ENTITY inv IS
+4, Upper case only in constant names or comments: END inv;
+10, Ugly comment: --XXX
+10, Add space before time unit: q <= not d after 30ps; --XXX

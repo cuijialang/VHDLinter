@@ -1,6 +1,6 @@
 # VHDLinter Config
 
-directory: "../my_VHDL_project/"
+directory: "./testing_vhdl/"
 
 CODE_CHECK: True
 FORMATING: False
@@ -9,14 +9,14 @@ BACKUP: True
 # Code check settings
 file_name_check: True
 print2console: True
-print2file: True
+print2file: False
 file_out_name: "VHDLinter_out.txt"
-file_out_dir: "./testing/"
+file_out_dir: "./testing_linter_out/"
 
 # Formating settings
 rm_bad_whitespaces: False
-tab2space: False
-pretty_comments: False
+tab2space: True
+pretty_comments: True
 spaces_per_tab: 4
 
 # Backup settings
@@ -29,7 +29,7 @@ max_var_name_length: 24
 
 colors:
     # "yellow", "cyan", "magenta", "blue", "green", "white"
-    filename: "cyan"
+    filename: "yellow"
     warning: "red"
 
 # "123": Linter output is ordered by lines

@@ -9,8 +9,8 @@ class CodeCheck():
         self.linter_out = ""
         self.constants = []
 
-
-    def rm_comment(self, line):
+    @staticmethod
+    def rm_comment(line):
 
         # ignore comments
         comment_bgn = line.find("--")
@@ -20,16 +20,19 @@ class CodeCheck():
 
     def check_file_name(self, lines):
 
-        info = "Bad file or entity name (entity_name.vhd)"
+        info = "Consider renaming file (entity.vhd) or entity "
         entity_keys = ["entity ", " is"]
 
-        for x in range(len(lines)):
-            line = lines[x]
-            i = x+1
+        for j, line in enumerate(lines):
+            i = j+1
 
-            if all(k in line for k in entity_keys):
+            if all(k in line.lower() for k in entity_keys):
+
+                # name
+                line = line.strip()
+                name = line[len("entity"):-2].strip()
                 if line.lower().find(self.f_name[:-4]) == -1:
-                    self.linter_out += str(i) + ", " + info + ": " + self.f_name +"\n"
+                    self.linter_out += str(i) + ", " + info + ": entity " + name +" in "+ self.f_name +"\n"
 
     def check_line_length(self, line, i, max_line_length):
         info = "Line too long"
@@ -50,7 +53,7 @@ class CodeCheck():
 
     def check_tabs(self, line, i):
 
-        info = "TAB found"
+        info = "Tab found (\\t)"
         chk = line.lower().find("\t", 0)
         if chk != -1:
             self.linter_out += str(i) + ", " + info + ": " + line.strip() + "\n"
@@ -67,8 +70,8 @@ class CodeCheck():
             self.constants.append(constant_name.strip())
 
             upper_case = True
-            for c in range(0, len(constant_name)):
-                if constant_name[c].isalpha() and constant_name[c].islower():
+            for _, name in enumerate(constant_name):
+                if name.isalpha() and name.islower():
                     upper_case = False
 
             if not upper_case:
@@ -77,7 +80,7 @@ class CodeCheck():
 
     def check_lower_case(self, line, i):
 
-        info = "Upper case only in constant names and comments"
+        info = "Upper case only in constant names or comments"
 
         exceptions = [" N", " T", "N_", "T_"]
         exceptions.extend(self.constants)
@@ -93,8 +96,8 @@ class CodeCheck():
         line_ic = self.rm_comment(line)
 
         lower_case = True
-        for pos in range(0, len(line_ic)):
-            if line_ic[pos].isalpha() and line_ic[pos].isupper():
+        for _, char in enumerate(line_ic):
+            if char.isalpha() and char.isupper():
                 lower_case = False
 
         if not lower_case and not excep_name:
@@ -104,26 +107,28 @@ class CodeCheck():
     def check_signal_names(self, line, i, max_name_length):
 
         info = "Signal name too long"
-        name_bgn = line.lower().find("signal")
-        chk_comment = line.find("--")
-        if name_bgn != -1 and (name_bgn < chk_comment or chk_comment == -1):
-            l_ss = line[name_bgn+len("signal"):].strip()
-            signal_name = l_ss[:l_ss.find(" ")-1]
-            if len(signal_name) > max_name_length:
+        line_ic = self.rm_comment(line)
+        name_bgn = line_ic.lower().find("signal ")
+        chk_multi = line.find(",")#
+        if name_bgn != -1 and chk_multi == -1:
+            name_end = line_ic.find(":")
+            signal_name = line_ic[name_bgn+len("signal "):name_end-1]
+            if len(signal_name.strip()) > max_name_length:
                 hint = " ("+str(len(signal_name)) + "/" + str(max_name_length)+")"
                 self.linter_out += str(i) + ", " + info + hint + ": " + signal_name + "\n"
 
     def check_var_names(self, line, i, max_name_length):
 
         info = "Variable name too long"
-        name_bgn = line.lower().find("variable")
-        chk_comment = line.find("--")
-        if name_bgn != -1 and (name_bgn < chk_comment or chk_comment == -1):
-            l_ss = line[name_bgn+len("variable"):].strip()
-            var_name = l_ss[:l_ss.find(" ")]
-            if len(var_name) > max_name_length:
+        line_ic = self.rm_comment(line)
+        name_bgn = line_ic.lower().find("variable ")
+        chk_multi = line.find(",")#
+        if name_bgn != -1 and chk_multi == -1:
+            name_end = line_ic.find(":")
+            var_name = line_ic[name_bgn+len("variable "):name_end-1]
+            if len(var_name.strip()) > max_name_length:
                 hint = " ("+str(len(var_name)) + "/" + str(max_name_length)+")"
-                self.linter_out += str(i) + ", " + info + hint +": " + var_name + "\n"
+                self.linter_out += str(i) + ", " + info + hint + ": " + var_name + "\n"
 
     def check_pkg_name(self, line, i):
 
@@ -161,20 +166,20 @@ class CodeCheck():
                     break
             i += 1
 
-        in_pos = False
+        #in_pos = False
         out_pos = False
 
         for line in entity_lines:
 
             in_chk = line.find("in ")
-            if in_chk != -1:
-                in_pos = True
+           #if in_chk != -1:
+           #    in_pos = True
 
             out_chk = line.find("out ")
             if out_chk != -1:
                 out_pos = True
 
-            if out_pos and in_chk != -1:
+            if in_chk != -1 and out_pos:
                 self.linter_out += str(j) + ", " + info + ": " + line + "\n"
             j += 1
 
@@ -232,7 +237,7 @@ class CodeCheck():
     def check_time_units(self, line, i):
 
         info = "Add space before time unit"
-        time_keys = ["ns;", "ms;", "ps"]
+        time_keys = ["ns;", "ms;", "ps;"]
         for key in time_keys:
             chk = line.lower().find(key, 0)
             if chk != -1 and line[chk-1].isnumeric() and not line[chk+len(key)-1].isalpha():
